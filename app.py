@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import folium
+import uuid
 
 
 app = Flask(__name__)
@@ -214,6 +215,7 @@ def send_email():
     except Exception as e:
         flash(f'Failed to send email: {str(e)}', 'error')
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
@@ -233,7 +235,7 @@ def network_diagram():
         labels = [label.strip() for label in pdfLabels.split(',') if label.strip()]
         try:
             for i, file in enumerate(files):
-                if file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'pdf':
+                if file and allowed_file(file.filename):
                     original_filename = secure_filename(file.filename)
                     unique_filename = f"{uuid.uuid4().hex}_{original_filename}"
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
@@ -243,13 +245,12 @@ def network_diagram():
         except Exception as e:
             flash(f'An error occurred while uploading files: {str(e)}')
         return redirect(url_for('network_diagram'))
-
+    return render_template('network_diagram.html')
 
 @app.route('/list_files', methods=['GET'])
 def list_files():
-    files = os.listdir(app.config['UPLOAD_FOLDER'])  # List files in the upload folder
-    return render_template('list_files.html', files=files)  # Render a template 
-        
+    files = os.listdir(app.config['UPLOAD_FOLDER'])
+    return render_template('list_files.html', files=files)
 
 
 history = []
