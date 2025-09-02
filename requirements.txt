@@ -1,7 +1,7 @@
 flask
 flask_sqlalchemy
 flask_login
-flask mail
-flask-wtf
+flask_mail
+flask_wtf
 werkzeug
 folium
