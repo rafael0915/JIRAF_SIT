@@ -216,31 +216,34 @@ def send_email():
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
 @app.route('/network_diagram', methods=['GET', 'POST'])
 def network_diagram():
     if request.method == 'POST':
         if 'pdfFiles' not in request.files:
             flash('No file part in the request')
             return redirect(request.url)
+
         files = request.files.getlist('pdfFiles')
         pdfLabels = request.form.get('pdfLabels', '')
         if not pdfLabels:
             flash('No labels provided')
             return redirect(request.url)
-        labels = [label.strip() for label in pdfLabels.split(',') if label.strip()]      
+
+        labels = [label.strip() for label in pdfLabels.split(',') if label.strip()]
         try:
             for i, file in enumerate(files):
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                if file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'pdf':
+                    original_filename = secure_filename(file.filename)
+                    unique_filename = f"{uuid.uuid4().hex}_{original_filename}"
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
                 else:
                     flash(f'File {file.filename} has invalid extension and was skipped.')
             flash('Files successfully uploaded')
         except Exception as e:
             flash(f'An error occurred while uploading files: {str(e)}')
-            return redirect(request.url)
         return redirect(url_for('network_diagram'))
-    return render_template('network_diagram.html')
+
 
 @app.route('/list_files', methods=['GET'])
 def list_files():

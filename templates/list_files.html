@@ -8,9 +8,9 @@
     <h2>Uploaded PDF Files</h2>
     <ul>
         {% for file in files %}
-            <li><a href="{{ url_for('static', filename='upload/' + file) }}">{{ file }}</a></li>
+            <li><a href="{{ url_for('static', filename='uploads/' + file) }}">{{ file }}</a></li>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('list_files') }}">Upload More Files</a>
+    <a href="{{ url_for('network_diagram') }}">Upload More Files</a>
 </body>
 </html>
