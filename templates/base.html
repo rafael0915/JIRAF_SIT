@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>SHIP IT TICKETS</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            background-color: #343a40;
+            height: 100vh;
+            padding: 20px;
+            position: fixed;
+            width: 250px;
+            overflow-y: auto;
+        }
+        .sidebar h4 {
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: #ffffff;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #007bff;
+        }
+        .content {
+            margin-left: 270px; /* Space for the sidebar */
+            padding: 20px;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h4>Navigation</h4>
+        <ul class="nav flex-column">
+            {% if current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('business_trip') }}">Business Trip Planner</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('trips') }}">Vessel Schedule</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('projects') }}">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('mailTemplates2') }}">Ship IT Templates</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('Directories') }}">Directories</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('vesselist2') }}">Managed Vessels</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('troubleshooting') }}">Troubleshooting Steps</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('network_diagram') }}">Vessel Network Diagram</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('map') }}">Connectivity Map</a></li>
+		<li class="nav-item"><a class="nav-link" href="{{ url_for('finalbriefing2') }}">Final Briefing List</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 100px; margin-right: 50px;">
+                
+            </a>
+        </nav>
+
+        <img src="{{ url_for('static', filename='ceme.png') }}" alt="Banner" class="img-fluid mb-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <img src="{{ url_for('static', filename='ship.png') }}" alt="ship" style="height:  50px;">
+        <p>&copy; 2025 Rafael Blas, ang iyong lingkod cannot be copyrights?!!?! All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+</html>

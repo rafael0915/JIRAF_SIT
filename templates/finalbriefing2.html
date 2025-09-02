@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Final Briefing List</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px 10px;
+  }
+  .container {
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .form-container {
+    padding: 20px 25px 30px;
+    width: 50%;
+  }
+  .history-container {
+    padding: 20px;
+    border-left: 1px solid #d1d5db;
+    width: 50%;
+  }
+  h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #24292e;
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+    user-select: none;
+  }
+  input[type="text"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    border: 1.8px solid #cbd5e0;
+    border-radius: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 6px #3b82f6aa;
+  }
+  button {
+    cursor: pointer;
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+    color: white;
+    transition: background 0.3s ease;
+  }
+  button:hover,
+  button:focus {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    outline: none;
+  }
+  .output {
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+  }
+  .output h3 {
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  .output p {
+    margin: 5px 0;
+  }
+</style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Input form">
+    <div class="form-container">
+      <h2>Final Briefing List</h2>
+      <form method="POST" novalidate>
+        <label for="nameInput">Name</label>
+        <input id="nameInput" type="text" name="name" placeholder="Enter Name" aria-required="true" required
+          value="{{ name or '' }}" />
+
+        <label for="dateInput">Date</label>
+        <input id="dateInput" type="date" name="date" aria-required="true" required
+          value="{{ date or '' }}" />
+
+        <label for="vesselNameInput">Vessel Name</label>
+        <input id=" vesselNameInput" type="text" name="vesselName" placeholder="Enter Vessel Name" aria-required="true" required
+          value="{{ vesselName or '' }}" />
+
+        <label for="personInChargeInput">Person In Charge</label>
+        <input id="personInChargeInput" type="text" name="personInCharge" placeholder="Enter Person In Charge" aria-required="true" required
+          value="{{ personInCharge or '' }}" />
+
+        <label for="statusSelect">Status</label>
+        <select id="statusSelect" name="status" aria-required="true" required>
+          <option value="" disabled {% if not status %}selected{% endif %}>-- Select Status --</option>
+          <option value="Finished" {% if status == 'Finished' %}selected{% endif %}>Finished</option>
+          <option value="Pending" {% if status == 'Pending' %}selected{% endif %}>Pending</option>
+        </select>
+
+        <button type="submit" aria-label="Submit form and view output">Submit</button>
+      </form>
+    </div>
+    <div class="history-container">
+      <h3>History</h3>
+      {% for entry in history %}
+      <div class="output" aria-live="polite">
+        <p><strong>Name:</strong> {{ entry.name or '(No Name Provided)' }}</p>
+        <p><strong>Date:</strong> {{ entry.date or '(No Date Provided)' }}</p>
+        <p><strong>Vessel Name:</strong> {{ entry.vesselName or '(No Vessel Name Provided)' }}</p>
+        <p><strong>Person In Charge:</strong> {{ entry.personInCharge or '(No Person In Charge Provided)' }}</p>
+        <p><strong>Status:</strong> {{ entry.status or '(No Status Provided)' }}</p>
+        <hr>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>

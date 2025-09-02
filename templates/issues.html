@@ -1,0 +1,21 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h2>Issues for Project</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title(size=32) }}<br>
+    {{ form.description.label }} {{ form.description(rows=4) }}<br>
+    {{ form.status.label }} {{ form.status() }}<br>
+    {{ form.submit() }}
+</form>
+<ul>
+    {% for issue in issues %}
+        <li>
+            {{ issue.title }} - {{ issue.status }} 
+            {% if issue.assigned_to %}
+                (Assigned to: {{ issue.assigned_to.username }})
+            {% endif %}
+            <a href="{{ url_for('update_issue', issue_id=issue.id) }}">Update</a>
+        </li>
+    {% endfor %}
+</ul>{% endblock %}

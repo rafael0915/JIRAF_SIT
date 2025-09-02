@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Diagram</title>
+</head>
+<body>
+    <h2>Upload PDF Files</h2>
+    <form action="{{ url_for('network_diagram') }}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="pdfFiles">Select PDF Files:</label>
+            <input type="file" name="pdfFiles" id="pdfFiles" multiple accept=".pdf" required>
+        </div>
+        
+        <div>
+            <label for="pdfLabels">Enter Labels (comma-separated):</label>
+            <input type="text" name="pdfLabels" id="pdfLabels" placeholder="Label1, Label2, ..." required>
+        </div>
+        
+        <button type="submit">Upload</button>
+    </form>
+    <a href="{{ url_for('files') }}">View Uploaded Files</a>
+</body>
+</html>

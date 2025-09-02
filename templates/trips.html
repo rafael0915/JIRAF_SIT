@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h1>Vessel Berthing Schedule</h1>
+
+<form method="POST" action="/add_trip">
+    <div class="form-group">
+        <label for="destination">Destination:</label>
+        <input type="text" class="form-control" id="destination" name="destination" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="start_date">Start Date:</label>
+        <input type="date" class="form-control" id="start_date" name="start_date" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="end_date">End Date:</label>
+        <input type="date" class="form-control" id="end_date" name="end_date" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="purpose">Purpose:</label>
+        <textarea class="form-control" id="purpose" name="purpose"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="fleet">Fleet:</label>
+        <input type="text" class="form-control" id="fleet" name="fleet" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Add Trip</button>
+</form>
+
+<h2 class="mt-4">Planned Trips</h2>
+<ul class="list-group">
+    {% for fleet, trips in trips_by_fleet.items() %}
+        <li class="list-group-item"><strong>Fleet: {{ fleet }}</strong></li>
+        <ul class="list-group">
+            {% for trip in trips %}
+                <li class="list-group-item">
+                    <strong>{{ trip.destination }}</strong> ({{ trip.start_date.strftime('%Y-%m-%d') }} to {{ trip.end_date.strftime('%Y-%m-%d') }}) - {{ trip.purpose }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>
+<button onclick="printPage()">Print this page</button>
+{% endblock %}

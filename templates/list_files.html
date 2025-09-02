@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uploaded Files</title>
+</head>
+<body>
+    <h2>Uploaded PDF Files</h2>
+    <ul>
+        {% for file in files %}
+            <li><a href="{{ url_for('static', filename='upload/' + file) }}">{{ file }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('list_files') }}">Upload More Files</a>
+</body>
+</html>
