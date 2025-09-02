@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ship Tracker Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    #map { height: 400px; }
+    .container { padding: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ship Movement Tracker</h1>
+    <div id="map"></div>
+
+    <h2>Schedule</h2>
+    <form id="scheduleForm">
+      <input type="text" name="shipName" placeholder="Ship Name" required />
+      <input type="datetime-local" name="departure" required />
+      <input type="datetime-local" name="arrival" required />
+      <button type="submit">Add Schedule</button>
+    </form>
+
+    <h2>Performance Chart</h2>
+    <canvas id="performanceChart" width="400" height="200"></canvas>
+  </div>
+
+  <script>
+    // Initialize map
+    const map = L.map('map').setView([34.0, 135.0], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    // Example ship marker
+    const shipMarker = L.marker([34.0, 135.0]).addTo(map).bindPopup('Ship A');
+
+    // Chart example
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [{
+          label: 'Fuel Usage',
+          data: [30, 45, 28],
+          borderColor: 'blue',
+          fill: false
+        }]
+      }
+    });
+
+    // Form validation
+    document.getElementById('scheduleForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const departure = new Date(form.departure.value);
+      const arrival = new Date(form.arrival.value);
+      if (arrival <= departure) {
+        alert('Arrival must be after departure!');
+        return;
+      }
+      // Send data to Flask backend via fetch()
+      fetch('/add_schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          shipName: form.shipName.value,
+          departure: form.departure.value,
+          arrival: form.arrival.value
+        })
+      }).then(res => res.json()).then(data => {
+        alert('Schedule added!');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import db, User, Project, Issue, BusinessTrip, VesselSchedule
@@ -292,6 +292,17 @@ def finalbriefing2():
                            status=status,
                            submitted=submitted,
                            history=history)
+
+@app.route('/')
+def index():
+    return render_template('VesselBerth.html')
+
+@app.route('/VesselBerth', methods=['POST'])
+def add_schedule():
+    data = request.get_json()
+    # Validate and store schedule in DB
+    return jsonify({'status': 'success'})
+
 
 @app.route('/logout')
 @login_required
