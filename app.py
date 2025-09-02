@@ -15,7 +15,7 @@ import uuid
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit upload size to 16 MB
 
@@ -219,6 +219,7 @@ def send_email():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+
 @app.route('/network_diagram', methods=['GET', 'POST'])
 def network_diagram():
     if request.method == 'POST':
@@ -235,7 +236,7 @@ def network_diagram():
         labels = [label.strip() for label in pdfLabels.split(',') if label.strip()]
         try:
             for i, file in enumerate(files):
-                if file and allowed_file(file.filename):
+                if file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'pdf':
                     original_filename = secure_filename(file.filename)
                     unique_filename = f"{uuid.uuid4().hex}_{original_filename}"
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
@@ -246,6 +247,7 @@ def network_diagram():
             flash(f'An error occurred while uploading files: {str(e)}')
         return redirect(url_for('network_diagram'))
     return render_template('network_diagram.html')
+
 
 @app.route('/list_files', methods=['GET'])
 def list_files():
