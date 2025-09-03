@@ -14,7 +14,7 @@ import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' , 'sqlite: ///trips.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trips.db' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 app.config['WORK_REPORT_FOLDER'] = os.path.join('static', 'work_reports')
