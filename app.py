@@ -294,8 +294,8 @@ def finalbriefing2():
                            history=history)
 
 
-@app.route('/VesselBerth', methods=['POST'])
-def VesselBerth():
+@app.route('/add_schedule', methods=['POST'])
+def add_schedule():
     data = request.get_json()
     # Validate and store schedule in DB
     return jsonify({'status': 'success'})
