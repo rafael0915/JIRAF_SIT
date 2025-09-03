@@ -145,20 +145,46 @@ def update_issue(issue_id):
 @app.route('/business_trip', methods=['GET', 'POST'])
 def business_trip():
     if request.method == 'POST':
-        destination = request.form['destination']
-        start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
-        end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d')
-        purpose = request.form['purpose']
-        user_id = 1  # Replace with the actual user ID from session or authentication
-
-        new_trip = BusinessTrip(destination=destination, start_date=start_date, end_date=end_date, purpose=purpose, user_id=user_id)
-        db.session.add(new_trip)
+        trip = Trip(
+            destination=request.form['destination'],
+            start_date=datetime.strptime(request.form['start_date'], '%Y-%m-%d'),
+            end_date=datetime.strptime(request.form['end_date'], '%Y-%m-%d'),
+            purpose=request.form['purpose'],
+            participants=request.form['participants']
+        )
+        db.session.add(trip)
         db.session.commit()
-        flash('Business trip added successfully!')
         return redirect(url_for('business_trip'))
 
-    trips = BusinessTrip.query.all()
+    query = Trip.query
+    participant_filter = request.args.get('participant')
+    if participant_filter:
+        query = query.filter(Trip.participants.contains(participant_filter))
+    trips = query.order_by(Trip.start_date).all()
     return render_template('business_trip.html', trips=trips)
+
+@app.route('/remove_trip/<int:trip_id>', methods=['POST'])
+def remove_trip(trip_id):
+    trip = Trip.query.get_or_404(trip_id)
+    db.session.delete(trip)
+    db.session.commit()
+    return redirect(url_for('business_trip'))
+
+@app.route('/export_trips')
+def export_trips():
+    trips = Trip.query.all()
+    df = pd.DataFrame([{
+        'Destination': t.destination,
+        'Start Date': t.start_date.strftime('%Y-%m-%d'),
+        'End Date': t.end_date.strftime('%Y-%m-%d'),
+        'Purpose': t.purpose,
+        'Participants': t.participants
+    } for t in trips])
+    output = io.BytesIO()
+    df.to_excel(output, index=False)
+    output.seek(0)
+    return send_file(output, download_name='business_trips.xlsx', as_attachment=True)
+
 
 @app.route('/add_trip', methods=['POST'])
 def add_trip():

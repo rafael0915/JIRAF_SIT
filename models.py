@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from datetime import datetime
 
 
-
 db = SQLAlchemy()
 
 class User(db.Model, UserMixin):  # Inherit from UserMixin
@@ -29,6 +28,14 @@ class Project(db.Model):
     name = db.Column(db.String(150), nullable=False)
     # Define the relationship to issues
     issues = db.relationship('Issue', backref='project', lazy=True)
+
+class Trip(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    destination = db.Column(db.String(100), nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
+    purpose = db.Column(db.Text)
+    participants = db.Column(db.String(200))
 
 class Issue(db.Model):
     __tablename__ = 'issue'
