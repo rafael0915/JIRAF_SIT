@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from models import db, User, Project, Issue, BusinessTrip, VesselSchedule
+from models import db, User, Project, Issue, BusinessTrip, VesselSchedule, Trip
 from forms import RegistrationForm, LoginForm, ProjectForm, IssueForm, UpdateIssueForm, AssignUserForm
 from datetime import datetime
 from flask_mail import Message, Mail
@@ -14,7 +14,8 @@ import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' , 'sqlite: ///trips.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 app.config['WORK_REPORT_FOLDER'] = os.path.join('static', 'work_reports')
 app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
@@ -26,6 +27,9 @@ os.makedirs(app.config['WORK_REPORT_FOLDER'], exist_ok=True)
 
 
 db.init_app(app)
+with app.app_context():
+    db.create_all()
+
 
 # Configure Flask-Mail
 app.config['MAIL_SERVER'] = 'smtp.example.com'
