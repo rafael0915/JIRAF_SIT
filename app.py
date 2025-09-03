@@ -293,13 +293,15 @@ def finalbriefing2():
                            submitted=submitted,
                            history=history)
 
-
 @app.route('/add_schedule', methods=['GET', 'POST'])
 def add_schedule():
     if request.method == 'POST':
         data = request.get_json()
-        # process data
+        # process and store the schedule
         return jsonify({'status': 'success'})
+    else:
+        # For GET requests, return a simple page or redirect
+        return render_template('add_schedule.html')  # or any valid response
 
 
 @app.route('/logout')
