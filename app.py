@@ -294,11 +294,12 @@ def finalbriefing2():
                            history=history)
 
 
-@app.route('/add_schedule', methods=['POST'])
+@app.route('/add_schedule', methods=['GET', 'POST'])
 def add_schedule():
-    data = request.get_json()
-    # Validate and store schedule in DB
-    return jsonify({'status': 'success'})
+    if request.method == 'POST':
+        data = request.get_json()
+        # process data
+        return jsonify({'status': 'success'})
 
 
 @app.route('/logout')
