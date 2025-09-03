@@ -293,9 +293,6 @@ def finalbriefing2():
                            submitted=submitted,
                            history=history)
 
-@app.route('/')
-def index():
-    return render_template('VesselBerth.html')
 
 @app.route('/VesselBerth', methods=['POST'])
 def add_schedule():
