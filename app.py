@@ -149,23 +149,26 @@ def update_issue(issue_id):
 @app.route('/business_trip', methods=['GET', 'POST'])
 def business_trip():
     if request.method == 'POST':
+        destination = request.form['destination']
+        start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
+        end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d')
+        purpose = request.form['purpose']
+        participants = request.form['participants']
+
         trip = Trip(
-            destination=request.form['destination'],
-            start_date=datetime.strptime(request.form['start_date'], '%Y-%m-%d'),
-            end_date=datetime.strptime(request.form['end_date'], '%Y-%m-%d'),
-            purpose=request.form['purpose'],
-            participants=request.form['participants']
+            destination=destination,
+            start_date=start_date,
+            end_date=end_date,
+            purpose=purpose,
+            participants=participants
         )
         db.session.add(trip)
         db.session.commit()
         return redirect(url_for('business_trip'))
 
-    query = Trip.query
-    participant_filter = request.args.get('participant')
-    if participant_filter:
-        query = query.filter(Trip.participants.contains(participant_filter))
-    trips = query.order_by(Trip.start_date).all()
-    return render_template('business_trip.html', trips=trips)
+    trips = Trip.query.order_by(Trip.start_date).all()
+    return render_template('business_trip.html', trips=trips, datetime=datetime)
+
 
 @app.route('/remove_trip/<int:trip_id>', methods=['POST'])
 def remove_trip(trip_id):
