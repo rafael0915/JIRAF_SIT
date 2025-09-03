@@ -5,10 +5,11 @@
   <title>Ship Tracker Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     #map { height: 400px; }
     .container { padding: 20px; }
+    .highlight { background-color: #fffa9e; }
+    .schedule-entry { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
@@ -24,34 +25,41 @@
       <button type="submit">Add Schedule</button>
     </form>
 
-    <h2>Performance Chart</h2>
-    <canvas id="performanceChart" width="400" height="200"></canvas>
+    <h2>Submitted Schedules</h2>
+    <div id="scheduleList"></div>
   </div>
 
   <script>
-    // Initialize map
     const map = L.map('map').setView([34.0, 135.0], 5);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    // Example ship marker
     const shipMarker = L.marker([34.0, 135.0]).addTo(map).bindPopup('Ship A');
 
-    // Chart example
-    const ctx = document.getElementById('performanceChart').getContext('2d');
-    const chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar'],
-        datasets: [{
-          label: 'Fuel Usage',
-          data: [30, 45, 28],
-          borderColor: 'blue',
-          fill: false
-        }]
-      }
-    });
+    const scheduleList = document.getElementById('scheduleList');
 
-    // Form validation
+    function isWithinThisWeek(dateStr) {
+      const now = new Date();
+      const inputDate = new Date(dateStr);
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6); // Saturday
+      return inputDate >= startOfWeek && inputDate <= endOfWeek;
+    }
+
+    function addScheduleToList(schedule) {
+      const entry = document.createElement('div');
+      entry.className = 'schedule-entry';
+      if (isWithinThisWeek(schedule.departure)) {
+        entry.classList.add('highlight');
+      }
+      entry.innerHTML = `
+        <strong>${schedule.shipName}</strong><br>
+        Departure: ${new Date(schedule.departure).toLocaleString()}<br>
+        Arrival: ${new Date(schedule.arrival).toLocaleString()}
+      `;
+      scheduleList.appendChild(entry);
+    }
+
     document.getElementById('scheduleForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const form = e.target;
@@ -61,17 +69,23 @@
         alert('Arrival must be after departure!');
         return;
       }
-      // Send data to Flask backend via fetch()
+
+      const schedule = {
+        shipName: form.shipName.value,
+        departure: form.departure.value,
+        arrival: form.arrival.value
+      };
+
       fetch('/add_schedule', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          shipName: form.shipName.value,
-          departure: form.departure.value,
-          arrival: form.arrival.value
-        })
-      }).then(res => res.json()).then(data => {
+        body: JSON.stringify(schedule)
+      })
+      .then(res => res.json())
+      .then(data => {
         alert('Schedule added!');
+        addScheduleToList(schedule);
+        form.reset();
       });
     });
   </script>
