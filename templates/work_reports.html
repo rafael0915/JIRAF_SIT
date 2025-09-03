@@ -1,0 +1,12 @@
+﻿<h2>Work Report Repository</h2>
+<form action="{{ url_for('upload_work_report') }}" method="post" enctype="multipart/form-data">
+    <label for="workReports">Select Work Report PDFs:</label>
+    <input type="file" name="workReports" id="workReports" multiple required>
+
+    <label for="workLabels">Enter Report Titles (comma-separated):</label>
+    <input type="text" name="workLabels" id="workLabels" placeholder="Report1, Report2, ..." required>
+
+    <button type="submit">Upload</button>
+</form>
+
+<a href="{{ url_for('list_work_reports') }}">View Submitted Reports</a>

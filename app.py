@@ -16,11 +16,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+app.config['WORK_REPORT_FOLDER'] = os.path.join('static', 'work_reports')
 app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit upload size to 16 MB
 
 # Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['WORK_REPORT_FOLDER'], exist_ok=True)
+
 
 db.init_app(app)
 
@@ -302,6 +305,37 @@ def add_schedule():
     else:
         # For GET requests, return a simple page or redirect
         return render_template('add_schedule.html')  # or any valid response
+
+
+@app.route('/work_reports')
+def work_reports():
+    return render_template('work_reports.html')
+
+# Route to handle uploads
+@app.route('/upload_work_report', methods=['POST'])
+def upload_work_report():
+    files = request.files.getlist('workReports')
+    labels = request.form.get('workLabels', '').split(',')
+
+    for i, file in enumerate(files):
+        if file.filename.endswith('.pdf'):
+            label = labels[i].strip() if i < len(labels) else f"Report_{i+1}"
+            filename = f"{label.replace(' ', '_')}_{file.filename}"
+            file.save(os.path.join(app.config['WORK_REPORT_FOLDER'], filename))
+
+    return redirect(url_for('list_work_reports'))
+
+# Route to list uploaded reports
+@app.route('/list_work_reports')
+def list_work_reports():
+    files = os.listdir(app.config['WORK_REPORT_FOLDER'])
+    return render_template('list_work_reports.html', files=files)
+
+# Optional: serve the uploaded PDFs
+@app.route('/work_reports/<filename>')
+def serve_work_report(filename):
+    return send_from_directory(app.config['WORK_REPORT_FOLDER'], filename)
+
 
 
 @app.route('/logout')
