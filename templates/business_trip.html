@@ -26,30 +26,36 @@
   <div class="container">
     <h1 class="mb-4 text-primary">🚢 Ship ICT Business Trip Planner</h1>
 
-    <form method="POST" class="mb-5 p-4 bg-light rounded shadow-sm">
-      <div class="mb-3">
-        <label for="destination" class="form-label">Destination</label>
-        <input type="text" id="destination" name="destination" class="form-control" required>
-      </div>
+<form method="POST" action="{{ url_for('business_trip') }}" class="mb-5 p-4 bg-light rounded shadow-sm">
+  <div class="mb-3">
+    <label for="destination" class="form-label">Destination</label>
+    <input type="text" id="destination" name="destination" class="form-control" required>
+  </div>
 
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="start_date" class="form-label">Start Date</label>
-          <input type="date" id="start_date" name="start_date" class="form-control" required>
-        </div>
-        <div class="col-md-6 mb-3">
-          <label for="end_date" class="form-label">End Date</label>
-          <input type="date" id="end_date" name="end_date" class="form-control" required>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="start_date" class="form-label">Start Date</label>
+      <input type="date" id="start_date" name="start_date" class="form-control" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="end_date" class="form-label">End Date</label>
+      <input type="date" id="end_date" name="end_date" class="form-control" required>
+    </div>
+  </div>
 
-      <div class="mb-3">
-        <label for="purpose" class="form-label">Purpose</label>
-        <textarea id="purpose" name="purpose" class="form-control" rows="3"></textarea>
-      </div>
+  <div class="mb-3">
+    <label for="purpose" class="form-label">Purpose</label>
+    <textarea id="purpose" name="purpose" class="form-control" rows="3"></textarea>
+  </div>
 
-      <button type="submit" class="btn btn-primary">Add Trip</button>
-    </form>
+  <div class="mb-3">
+    <label for="participants" class="form-label">Who’s Going</label>
+    <input type="text" id="participants" name="participants" class="form-control" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add Trip</button>
+</form>
+
 
 <h2 class="mb-3">📅 Planned Trips</h2>
 {% for trip in trips %}
