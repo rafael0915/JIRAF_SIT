@@ -1,834 +1,1732 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troubleshooting Guide</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .expand-collapse-btn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .expand-collapse-btn:hover {
-            background-color: #0056b3;
-        }
-        .content {
-            transition: max-height 0.2s ease-out;
-            overflow: hidden;
-            max-height: 500px; /* Set a max height for the expanded state */
-        }
-        .collapsed {
-            max-height: 0;
-        }
-    </style>
-</head>
-<body>
-    <h1>Troubleshooting Guide</h1>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton1">VIEW EVENT HISTORY FOR ISSUES/TROUBLE IN WINDOWS</button>
-        <div class="content" id="content1" class="collapsed">
-            <p>- Event Viewer</p>
-            <p>- Reliability Monitor</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton2">SHOW LIST OF NETWORK INTERFACE VIA CMD</button>
-        <div class="content" id="content2" class="collapsed">
-            <p>Commands:</p>
-            <p>netsh interface show interface</p>
-            <p>or</p>
-            <p>wmic nic get name</p>
-            <p>(it will show the index # and name of nic)</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton3">VIEW MEMORY INFORMATION VIA CMD</button>
-        <div class="content" id="content3" class="collapsed">
-            <p>1. Open cmd (run as administrator)</p>
-            <p>2. Type the below command:</p>
-            <p>wmic memorychip get (devicelocator, manufacturer, partnumber, serialnumber, capacity, speed, memorytype, formfactor)</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton4">ENABLE/DISABLE NETWORK INTERFACE VIA CMD</button>
-        <div class="content" id="content4" class="collapsed">
-            <p>Command (disable):</p>
-            <p>netsh interface set interface "Interface Name" disable</p>
-            <p>Command (enable):</p>
-            <p>netsh interface set interface "Interface Name" enable</p>
-            <p>or this command:</p>
-            <p>wmic path win32_networkadapter where index = 1 call disable</p>
-            <p>(the number must be replaced with the index of the network adapter)</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton5">VIEW LOCAL ACCOUNT STATUS (JOINED DOMAIN)</button>
-        <div class="content" id="content5" class="collapsed">
-            <p>1. Open CMD.</p>
-            <p>2. Type the below command and hit enter:</p>
-            <p>dsregCMD /status</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton6">ENABLE "TELNET" IN WINDOWS</button>
-        <div class="content" id="content6" class="collapsed">
-            <p>1. Open CMD.</p>
-            <p>2. Type the below command and hit enter:</p>
-            <p>pkgmgr /iu:"Tel netClient"</p>
-            <p>3. Restart CMD.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton7">TEST ORCA IMAP Server FOR ISSUES</button>
-        <div class="content" id="content7" class="collapsed">
-            <p>Incoming Server: mail.orion.plus 993 (SSL)</p>
-            <p>Outgoing Server: mail.orion.plus 465 (SSL)</p>
-            <p>Test IMAP Server (Non-SSL method):</p>
-            <p>1. Run CMD.</p>
-            <p>2. Type: telnet mail.orion.plus 143</p>
-            <p>3. You should see the below message:</p>
-            <p>* OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE STARTTLS AUTH=PLAIN AUTH=LOGIN] Dovecot ready.</p>
-            <p>4. Enter the below command to exit:</p>
-            <p>a1 LOGOUT</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton8">EMAIL TROUBLESHOOTING STEPS (ORCA) - GATHERING DATA</button>
-        <div class="content" id="content8" class="collapsed">
-            <p>1. Press Windows + R key.</p>
-            <p>2. Type CMD and open it.</p>
-            <p>3. Type the following command:</p>
-            <p>ping 18.181.139.55 or ping asshu.orion.plus</p>
-            <p>4. Then type the below command after:</p>
-            <p>ping 220.110.146.35 or ping saiun.orcajpn.co.jp</p>
-            <p>5. Take a screenshot for our reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton9">USING THE OLD Server SETTINGS ON BACKUP PC</button>
-        <div class="content" id="content9" class="collapsed">
-            <p>1. Go to C drive->ORCAMail folder</p>
-            <p>2. Find the matome.ini and copy it to the desktop as a backup.</p>
-            <p>3. Right-click matome.ini located in the ORCA Mail folder and choose edit.</p>
-            <p>4. Find the following parts. (Take a screenshot)</p>
-            <p>CompressPop3.server=18.181.139.55</p>
-            <p>CompressSmtp.server=18.181.139.55</p>
-            <p>5. Modify the above info. with the below one. (Take a screenshot)</p>
-            <p>CompressPop3.server=220.110.146.35</p>
-            <p>CompressSmtp.server=220.110.146.35</p>
-            <p>6. Go to file->Click save</p>
-            <p>7. Restart/Reboot the PC.</p>
-            <p>8. Check again the Email connection after the reboot.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton10">SLOW SENDING/RECEIVING OF EMAIL</button>
-        <div class="content" id="content10" class="collapsed">
-            <p>Reboot FBB terminal:</p>
-            <p>1. Turn off the FBB terminal power.</p>
-            <p>2. Wait for 30 minutes.</p>
-            <p>3. Turn on FBB terminal power.</p>
-            <p>4. Wait for 30 minutes.</p>
-            <p>5. Test email connection.</p>
-            <p>Reboot VSAT terminal:</p>
-            <p>1. Turn off the VSAT terminal power.</p>
-            <p>2. Wait for 30 minutes.</p>
-            <p>3. Turn on VSAT terminal power.</p>
-            <p>4. Wait for 30 minutes.</p>
-            <p>5. Test email connection.</p>
-            <p>Reboot STARLINK terminal:</p>
-            <p>1. Turn off the STARLINK terminal power.</p>
-            <p>2. Wait for 30 minutes.</p>
-            <p>3. Turn on STARLINK terminal power.</p>
-            <p>4. Wait for 30 minutes.</p>
-            <p>5. Test email connection.</p>
-            < <p>*Also reboot the Mail PC when rebooting the terminal.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton11">ORCA MAIL APPLICATION ERROR</button>
-        <div class="content" id="content11" class="collapsed">
-            <p>1. Reboot the M-LIGHT PC Server and then open ORCA Mail.</p>
-            <p>2. Click the connect button.</p>
-            <p>3. Kindly take screenshots for errors that will show on the screen (if any).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton12">HARDWARE DIAGNOSTIC PROGRAM (FOR DELL COMPUTERS)</button>
-        <div class="content" id="content12" class="collapsed">
-            <p>1. Power on PC.</p>
-            <p>- If the PC is powered ON now, switch it OFF.</p>
-            <p>- After that, power it ON again.</p>
-            <p>2. Keep hitting the "F12" key.</p>
-            <p>- After step (1), keep hitting the "F12" key before the DELL logo appears.</p>
-            <p>3. Choose Diagnostics.</p>
-            <p>- When you succeed in step (2), the boot option menu will be shown.</p>
-            <p>- Choose "Diagnostics", and the Hardware test will start.</p>
-            <p>- If YES/NO message is shown please choose YES during the test.</p>
-            <p>4. Send us a screenshot.</p>
-            <p>- After the complete Diagnostics program, the result will appear on the screen.</p>
-            <p>- Please take a photo of that result and provide it to us.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton13">WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (ABLE TO ACCESS WINDOWS DESKTOP)</button>
-        <div class="content" id="content13" class="collapsed">
-            <p>1. Go to the search bar and type "CMD" then select "Run as administrator."</p>
-            <p>2. Once the command prompt (CMD) window is open, type the following command:</p>
-            <p>DISM.exe /Online /Cleanup-image /Scanhealth</p>
-            <p>3. Wait for the scan to finish then run the next command:</p>
-            <p>sfc /scannow</p>
-            <p>*The command should scan and repair corrupted/broken installation files.</p>
-            <p>4. Once done, kindly take a screenshot of it and send it for our reference.</p>
-            <p>5. Restart the PC.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton14">WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (UNABLE TO ACCESS WINDOWS DESKTOP) METHOD-1</button>
-        <div class="content" id="content14" class="collapsed">
-            <p>1. Turn off the PC.</p>
-            <p>2. Press F11 as soon as you turn on the PC then recovery environment will show.</p>
-            <p>3. Choose Troubleshoot->Advanced options->Command prompt.</p>
-            <p>4. Once the command prompt (CMD) window is open, type the following command then hit enter:</p>
-            <p>chkdsk C: /f /r</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>5. Then type the following command then hit enter:</p>
-            <p>sfc /scannow</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>6. Restart the PC and check if it will be able to access the desktop.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton15">WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (UNABLE TO ACCESS WINDOWS DESKTOP) METHOD-2</button>
-        <div class="content" id="content15" class="collapsed">
-            <p>1. Turn off the PC.</p>
-            <p>2. Press F11 as soon as you turn on the PC then the recovery environment will show.</p>
-            <p>3. Choose Troubleshoot->Advanced options->Command prompt.</p>
-            <p>4. Once the command prompt (CMD) window is open, type the following command then hit enter:</p>
-            <p>bootrec /fixmbr</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>5. Then on the CMD, type the following command then hit enter:</p>
-            <p>bootrec /fixboot</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>6. Then on the CMD, type the following command then hit enter:</p>
-            <p>bootrec /scanos</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>7. Then on the CMD, type the following command then hit enter:</p>
-            <p>bootrec /rebuildbcd</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>8. Restart the PC and check if it will be able to access the desktop.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton16">WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (UNABLE TO ACCESS WINDOWS DESKTOP) METHOD-3</button>
-        <div class="content" id="content16" class="collapsed">
-            <p>1. Turn off the PC.</p>
-            <p>2. Press F11 as soon as you turn on the PC then the recovery environment will show.</p>
-            <p>3. Choose Troubleshoot->Advanced options->Command prompt.</p>
-            <p>4. Once the command prompt (CMD) window is open, type the following command then hit enter:</p>
-            <p>DISM /Online /Cleanup-Image /CheckHealth</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>5. Then on the CMD, type the following command then hit enter:</p>
-            <p>DISM /Online /Cleanup-Image /ScanHealth</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>6. Then on the CMD, type the following command then hit enter:</p>
-            <p>DISM /Online /Cleanup-Image /RestoreHealth /Source:repairSource\install.wim</p>
-            <p>*Wait for the scan to finish (take a screenshot).</p>
-            <p>7. Restart the PC and check if it will be able to access the desktop.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton17">RESET WINDOWS 10/11 TO DEFAULT CONFIGURATION VIA CMD (FILES WILL BE SAVED)</button>
-        <div class="content" id="content17" class="collapsed">
-            <p>*Should be used as a last troubleshooting resort.</p>
-            <p>1. Turn off the PC.</p>
-            <p>2. Press F11 as soon as you turn on the PC then the recovery environment will show.</p>
-            <p>3. Choose Troubleshoot->Advanced options->Command prompt.</p>
-            <p>4. Once the command prompt (CMD) window is open, type the following command then hit enter:</p>
-            <p>systemreset -cleanpc</p>
-            <p>5. Then the fresh restart window will open, just click next and it will automatically do the process.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton18">RUN "SYSTEM RESTORE" USING CMD</button>
-        <div class="content" id="content18" class="collapsed">
-            <p>1. Turn off the PC.</p>
-            <p>2. Press F11 as soon as you turn on the PC then the recovery environment will show.</p>
-            <p>3. Choose Troubleshoot->Advanced options->Command prompt.</p>
-            <p>4. Once the command prompt (CMD) window is open, type the following command then hit enter:</p>
-            <p>rstrui.exe</p>
-            <p>*It will show the System Restore window and then proceed to restore the system on the last system point where the PC is in a good state.</p>
-            <p>*The System Restore should be active and have saved restore points for this to recover the system successfully.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton19">REBOOTING NAS</button>
-        <div class="content" id="content19" class="collapsed">
-            <p>1. Press and hold Power button until it produces a beep sound.</p>
-            <p>2. Wait for 10 minutes.</p>
-            <p>3. Check if the LED is unlit.</p>
-            <p>4. Push the power button again.</p>
-            <p>5. Wait for 15 minutes.</p>
-            <p>6. Type "CMD" on the search bar.</p>
-            <p>7. Then type ping nethdd (Take a screenshot).</p>
-            <p>8. Take also a photo of the NAS's LED lamp.</p>
-            <p>9. Try to access again the NAS.</p>
-            <p>*Proceed with TeamViewer troubleshooting process afterward for verification.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton20">M-LIGHT Server REBOOT PROCESS</button>
-        <div class="content" id="content20" class="collapsed">
-            <p>1. Reboot/Restart the M-LIGHT Server. (Close the Google Chrome web browser before restarting/rebooting)</p>
-            <p>2. Wait for 5 minutes after the reboot then double-click the M-LIGHT shortcut icon on the desktop to access the M-LIGHT login screen. (Take a screenshot)</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton21">M-LIGHT (UNABLE TO ACCESS THE LOGIN SCREEN AND STUCK AT SOLVERMINDS)</button>
-        <div class="content" id="content21" class="collapsed">
-            <p>1. Reboot/Restart the M-LIGHT Server. (Close the Google Chrome web browser before restarting/rebooting)</p>
-            <p>2. Wait for 5 minutes after the reboot then double-click the M-LIGHT shortcut icon on the desktop to access the M-LIGHT login screen. (Take a screenshot)</p>
-            <p>If still unable to access the M-LIGHT login screen:</p>
-            <p>1. Go to the search bar and type "CMD." Then right-click and run as administrator.</p>
-            <p>2. Type the below command then hit the enter key. (Take a screenshot)</p>
-            <p>ipconfig /flushdns</p>
-            <p>*(must have a space between the ipconfig and /)</p>
-            <p>3. Open Google Chrome and click on the 3 vertical icons in the upper-right corner.</p>
-            <p>4. Then select "Settings."</p>
-            <p>5. Select "Privacy and Security" under Settings.</p>
-            <p>6. Click "Delete browsing data" under Privacy and Security.</p>
-            <p>7. Set the time range "All time" then click Delete data.</p>
-            <p>8. Then close Google Chrome and open the M-LIGHT Shortcut on the desktop to check if you are now able to access the login screen.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton22">M-LIGHT (CHECK IF THE MACK SERVICE IS RUNNING)</button>
-        <div class="content" id="content22" class="collapsed">
-            <p>1. Go to the search bar and type "Services" then hit the enter key.</p>
-            <p>2. On the "Services" window, scroll down and find the word "MACK" in the name column under Services (Local).</p>
-            <p>3. Check if the "MACK" service is running (Take a screenshot).</p>
-            <p>4. Type "http://localhost:8000/" in the address bar and press Enter to open the "Server Maintenance" screen. (Take a screenshot).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton23">CONNECTING TO SKYBERRY 4G WIFI VIA ORIF MENU</button>
-        <div class="content" id="content23" class="collapsed">
-            <p>1. Access the ORIF by typing the below address on a web browser (Google Chrome/Edge):</p>
-            <p>http://192.168.100.1/</p>
-            <p>2. Login using the below credentials:</p>
-            <p>- ID: ship</p>
-            <p>- PW: 8lue0cean</p>
-            <p>3. Go to WIFI on the left-side corner of the ORIF screen and scan SSID.</p>
-            <p>4. Search for the Skyberry 4G WIFI (the device's power should be ON at this moment).</p>
-            <p>5. Click connect to the vessel's Skyberry 4G WIFI and check if "connected" is shown on the screen.</p>
-            <p>6. To disconnect, kindly turn off the Skyberry 4G WIFI.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton24">SETTINGS FOR UPDATING M-LIGHT BACKUP PATH</button>
-        <div class="content" id="content24" class="collapsed">
-            <p>Open the File Explorer:</p>
-            <p>1. Create a Folder on the Shared Server.</p>
-            <p>Please create the following folder on the NAS (//nethdd/disck/):</p>
-            <p>Folder name: M-LIGHT_Backup</p>
-            <p>Incorrect path:</p>
-            <p>D:\MLIGHT_BACKUP</p>
-            <p>Correct path:</p>
-            <p>\\nethdd\disk\M-LIGHT_Backup</p>
-            <p>The folder name must be "M-LIGHT_Backup."</p>
-            <p>2. Log in using your MASTER account.</p>
-            <p>3. Choose the "Back up configuration."</p>
-            <p>- Select the blue eyeball icon.</p>
-            <p>- Press the 3 dots mark.</p>
-            <p>- Press Edit.</p>
-            <p>- Please rewrite the path.</p>
-            <p>- Please check Retention, then "10."</p>
-            <p>- Please check Auto Backup Time, enter the 03:00.</p>
-            <p>- Press Save.</p>
-            <p>Once you have pressed Save, please send us a screenshot.</p>
-            <p>*If an error occurs while saving the modified settings, please send the error details/take a screenshot for our reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton25">M-LIGHT PC Server UNABLE TO OPEN</button>
-        <div class="content" id="content25" class="collapsed">
-            <p>1. Power on the M-LIGHT PC Server.</p>
-            <p>2. Check if it loads until completely displays the login screen. (take a photo)</p>
-            <p>*If the booting of Windows did not reach the login screen, take a photo of the actual status of the M-LIGHT PC Server while booting to Windows.</p>
-            <p>3. If successfully reach the login screen, try to log in to the M-LIGHT PC Server as usual. (take a photo)</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton26">M-LIGHT SHORTCUT MODIFICATION (1)</button>
-        <div class="content" id="content26" class="collapsed">
-            <p>1. Right-click on the M-LIGHT shortcut.</p>
-            <p>2. Go to the "Web Document" tab.</p>
-            <p>3. Change the URL to: (copy the path below and paste it)</p>
-            <p>http://m-light:8080</p>
-            <p>4. Click 'Apply" then take a screenshot before clicking the "OK" button.</p>
-            <p>5. Open the modified M-LIGHT shortcut and take a screenshot of the M-LIGHT login screen.</p>
-            <p>*Send us the 2 screenshots requested above for our reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton27">M-LIGHT SHORTCUT MODIFICATION (2)</button>
-        <div class="content" id="content27" class="collapsed">
-            <p>Remove/Delete first the existing M-LIGHT shortcut.</p>
-            <p>1. Copy the "Google Chrome" shortcut on the desktop and paste it on the desktop.</p>
-            <p>2. Right-click the copied shortcut to display its properties.</p>
-            <p>3. Change "Target" in the shortcut tab with the below one (copy the entire target path):</p>
-            <p>"C:\Program Files\Google\Chrome\Application\chrome.exe" "http://m-light:8080/"</p>
-            <p>*Just in case the error "Path Invalid" occurs, copy the below target path instead:</p>
-            <p>"C:\Users\M-LIGHT ADMIN\AppData\Local\Google\Chrome\Application\chrome.exe" "http://m-light:8080/"</p>
-            < <p>(Must have " at the beginning and end of the above command.)</p>
-            <p>4. In the "General" tab, change the name item from "Google Chrome" to "M-Light."</p>
-            <p>5. Click "Apply" -> "OK" to create a shortcut of M-LIGHT on the desktop.</p>
-            <p>Then open the shortcut and check if the M-LIGHT login screen will show (take a screenshot).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton28">SKYBERRY 4G WIFI (UNABLE TO CONNECT TO 4G NETWORK)</button>
-        <div class="content" id="content28" class="collapsed">
-            <p>1. Press and hold the reset button (the small button below the power button) with a pointed object like a clip for at least 10 seconds while the power is on.</p>
-            <p>2. The system will automatically reboot.</p>
-            <p>3. Wait for a few minutes until the fan-shaped indicator on the left side lights up.</p>
-            <p>4. When the fan-shaped indicator lights up, connect to WiFi and check the communication.</p>
-            <p>*For checking the Skyberry connection, directly connect the M-LIGHT PC Server via wifi then access the Skyberry GUI below.</p>
-            <p>Skyberry GUI access: http://192.168.43.1/</p>
-            <p>*Take a screenshot for reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton29">CHECK WINDOWS UPDATE INSTALLATION HISTORY</button>
-        <div class="content" id="content29" class="collapsed">
-            <p>1. Type CMD on the search bar.</p>
-            <p>2. Run CMD as administrator.</p>
-            <p>3. On the CMD window, copy-paste the below command:</p>
-            <p>wmic qfe list</p>
-            <p>4. Take a screenshot of the result for our reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton30">FBB/VSAT/IRIDIUM CERTUS CONNECTIVITY ISSUE</button>
-        <div class="content" id="content30" class="collapsed">
-            <p>Failover the connection from VSAT to FBB.</p>
-            <p>ON the rack, find the XChange FX device (it has black FX sticker on the front side and it has an LCD display on the front left side and under the display there are 4 arrow buttons left up down right).</p>
-            <p>- Press > arrow and you will see the Installation Menu.</p>
-            <p>- Then press the v arrow until the NSD menu and press >.</p>
-            <p>- Press the v arrow until Force FBB menu and then press >.</p>
-            <p>- At the Force FBB menu press > arrow to say YES.</p>
-            <p>Now the ship-shore data connection should be over the FBB link.</p>
-            <p>*If an internet connection still cannot be established, please restart the FBB terminal and repeat the above procedure.</p>
-            <p>*FBB GUI access: http://192.168.128.100/</p>
-            <p>*Take a screenshot for reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton31">NAS ERROR ISSUES</button>
-        <div class="content" id="content31" class="collapsed">
-            <p>1. Connect the external HDD to any PC in the bridge area.</p>
-            <p>2. Check if it is accessible.</p>
-            <p>If the external HDD is not accessible:</p>
-            <p>1. Turn off the External HDD's power for 5 minutes.</p>
-            <p>2. Turn on the External HDD.</p>
-            <p>3. Plug the USB cable into any PC and check if the External HDD is accessible.</p>
-            <p>If still not accessible:</p>
-            <p>1. Access the "This PC" and locate the drive letter of the HDD backup.</p>
-            <p>2. Right-click and choose properties.</p>
-            <p>3. Take a screenshot for our reference.</p>
-            <p>Once the status has been checked:</p>
-            <p>1. Right-click Windows start button.</p>
-            <p>2. Select Disk management.</p>
-            < <p>3. Right-click "(E:) 1863.02GB RAW."</p>
-            <p>4. Select Format.</p>
-            <p>5. Click Yes.</p>
-            <p>6. Click File System and select NTFS.</p>
-            <p>7. Select "Perform a quick format."</p>
-            <p>8. Click OK.</p>
-            <p>9. Check the external HDD if it is now accessible.</p>
-            <p>10. Copy the data from the NAS to the external HDD just in case the NAS will be inaccessible. (external HDD is twice the size of the NAS).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton32">REPLACING THE HDD ON THE NAS</button>
-        <div class="content" id="content32" class="collapsed">
-            <p>1. Prepare the spare HDD for the NAS and a Phillips head screwdriver.</p>
-            <p>2. Keep the NAS turned on (Do Not turn off).</p>
-            <p>3. Remove the HDD1 from the NAS (HDD1 is the upper side HDD).</p>
-            <p>4. Remove the HDD from the HDD1 tray and replace it with a new HDD. (spare HDD).</p>
-            <p>*The HDD is secured in place with screws, so remove them using a Phillips head screwdriver.</p>
-            <p>5. Once the new HDD is installed in the tray, simply insert it into the HDD1 slot of the NAS.</p>
-            <p>6. Wait a while until the HDD1 LED turns green or flashes green, and the Status lamp is also green.</p>
-            <p>*(It may take several hours to sync the HDD.)</p>
-            <p>7. After you replace the HDD, please check that you can access the NAS.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton33">CHECK HDD WITH CHKDSK COMMAND</button>
-        <div class="content" id="content33" class="collapsed">
-            <p>1. In the Run box, type CMD and press Ctrl + Shift + Enter to run Command Prompt as administrator.</p>
-            <p>2. Then type CHKDSK C: /f and press Enter to run the command.</p>
-            <p>*You can replace C with the drive letter of the drive that you want to scan and fix.</p>
-            <p>3. Once done, reboot your PC and check if the issue is fixed.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton34">NAVBOX REPLACEMENT PROCEDURE</button>
-        <div class="content" id="content34" class="collapsed">
-            <p>(1) Replace Connect Cube to Navbox.</p>
-            <p>Connect Navbox directly to the LAN port that Connect Cube was connected to.</p>
-            <p>(2) Change Chart PC to automatic IP.</p>
-            <p>Please operate at the Chart PC of the following:</p>
-            <p>1. Control Panel -> Network and Internet -> Network and Sharing Center -> Change adapter settings.</p>
-            <p>2. Right-click "Ethernet" -> property -> Internet Protocol version 4(TCP / IPv4).</p>
-            <p>3. Select "Obtain an IP address automatically" and "Obtain DNS Server address automatically."</p>
-            <p>4. OK button.</p>
-            <p>(3) Install Navtor software following Navtor instructions.</p>
-            <p>Please contact Navtor support directly for instructions on how to install the software.</p>
-            <p>(4) Verify that Navtor software can be successfully updated through Navbox.</p>
-            <p>(5) Please take photos of the LAN connection after installing the Navbox.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton35">SLOW SENDING AND RECEIVING OF EMAIL</button>
-        <div class="content" id="content35" class="collapsed">
-            <p>1. Check if ORIF GUI is accessible: 192.168.100.1.</p>
-            <p>2. Check the computer's email sending and receiving performance.</p>
-            <p>3. Request to provide the "hosts" file of the computer.</p>
-            <p>Follow the below access procedure:</p>
-            <p>a.) C Drive -> Windows -> System32 -> Drivers -> etc folder.</p>
-            <p>b.) Inside from the etc folder look for "hosts."</p>
-            <p>c.) Send us that file (hosts).</p>
-            <p>*Check whether the crew internet is causing issues with the email's sending and receiving performance.</p>
-            <p>- Open ORCA ORIF (http://192.168.100.1/).</p>
-            <p>- Click User Login, and input ID and Password.</p>
-            <p>- Go to Tickets.</p>
-            <p>- Find Ticket SW > This will be your switch.</p>
-            <p>- Turn OFF the switch.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton36">ALTERNATE TROUBLESHOOTING (LOW RAM INSTALLED/FAST OVERHEATING OF THE LAPTOP)</button>
-        <div class="content" id="content36" class="collapsed">
-            <p>1. Slightly elevate the laptop for the hot air to circulate outside the laptop.</p>
-            <p>2. Turn off the computer for about 2 minutes then turn it on again after 2 hours of operation for the RAM to be refreshed.</p>
-            <p>3. Monitor the 2 PCs' performance and inform us of any other issues.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton37">FORM1 (BACKGROUNDTASKHOST.EXE - SYSTEM ERROR) ISSUE</button>
-        <div class="content" id="content37" class="collapsed">
-            <p>1. Hit the Start button.</p>
-            <p>2. Go to Settings > Personalization > Lock screen.</p>
-            <p>3. Select Screen saver settings.</p>
-            <p>4. In the Screen saver settings window, choose a screen saver from the drop-down list.</p>
-            <p>5. Choose from the default screensavers (ribbon, radiant, or mystify).</p>
-            <p>6. Click Apply.</p>
-            <p>(Take screenshots for our reference)</p>
-            <p>Reboot the computer afterward, then observe if the issue has been resolved.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton38">TROUBLESHOOTING VSAT CONNECTIVITY ISSUE</button>
-        <div class="content" id="content38" class="collapsed">
-            <p>1. Power off the whole VSAT Rack equipment. (DO NOT TURN ON IMMEDIATELY)</p>
-            <p>2. Wait for 30 minutes.</p>
-            <p>3. Power on the whole VSAT Rack equipment.</p>
-            <p>4. Wait for 30 minutes.</p>
-            <p>5. Check the connection.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton39">CHECKING OF ACTUAL IT DEVICES (REMOTELY)</button>
-        <div class="content" id="content39" class="collapsed">
-            <p>1. Go to the search bar and type "CMD" then choose "run as administrator." After that, maximize the screen of the CMD window.</p>
-            <p>2. Type the below command, hit enter, and then take a screenshot of the entire result:</p>
-            <p>systeminfo</p>
-            <p>3. Type the below command, hit enter, and then take a screenshot of the entire result:</p>
-            <p>ipconfig /all</p>
-            <p>4. Type the below command, hit enter, and then take a screenshot of the entire result:</p>
-            <p>powershell "get-physicaldisk | format-table -autosize"</p>
-            <p>5. Type the below command and hit enter:</p>
-            <p>wmic</p>
-            <p>It will show the “wmic:root\cli>”, then type the below command and then hit enter:</p>
-            <p>/node:TargetPC product get name, version, vendor</p>
-            <p>*Take note to change the TargetPC based on the PC that you are running the command.</p>
-            <p>Example:</p>
-            <p>For ORCA2211C04, run the command after entering the wmic in the command prompt.</p>
-            <p>/node:ORCA2211C04 product get name, version, vendor</p>
-            <p>For ORCA2212029, run the command after entering the wmic in the command prompt.</p>
-            <p>/node: ORCA2212029 product get name, version, vendor</p>
-            <p>6. Take a screenshot of the entire result and send all the screenshots for our reference.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton40">TROUBLESHOOTING NETWORK ISSUES (ON CLIENT COMPUTERS)</button>
-        <div class="content" id="content40" class="collapsed">
-            <p>Step 1:</p>
-            <p>1. Unplug LAN cable from port.</p>
-            <p>2. Reboot this network hub.</p>
-            <p>3. Plug LAN cable to port again.</p>
-            <p>4. Check if your device can get IP address from Crew WiFi access point.</p>
-            <p>Step 2:</p>
-            <p>1. Go to Windows search.</p>
-            <p>2. Input CMD.</p>
-            <p>3. Run Command prompt.</p>
-            <p>4. Input the following command and hit enter:</p>
-            <p>ipconfig /all</p>
-            <p>5. Take a screenshot of the result and send it to us.</p>
-            <p>Step 3:</p>
-            <p>1. Go to control panel->Network and internet->Network Connections.</p>
-            <p>2. Right-click Ethernet.</p>
-            <p>3. Click Disable.</p>
-            <p>4. Right-click Ethernet again.</p>
-            <p>5. Click Enable.</p>
-            <p>6. Perform ipconfig and take a screenshot.</p>
-            <p>Step 4:</p>
-            <p>1. Go to control panel->Network and internet->Network Connections.</p>
-            <p>2. Right-click Ethernet.</p>
-            <p>3. Click Properties.</p>
-            <p>4. Find Internet Protocol Version 4 and double click it.</p>
-            <p>5. Set IP address as per the attached file:</p>
-            <p>Set IP address to static (file).</p>
-            <p>6. After that, check if your M-LIGHT PC can open ORIF menu (http://192.168.100.1) (Y/N).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton41">CHECKING STARLINK CONNECTION</button>
-        <div class="content" id="content41" class="collapsed">
-            <p>1. Unplug STARLINK connection cable on WAN1 and directly connect it to PC.</p>
-            <p>2. Open internet browser and check if it can access the internet (external webpages).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton42">M-LIGHT BACKUP ISSUES</button>
-        <div class="content" id="content42" class="collapsed">
-            <p>1. Open Settings:</p>
-            <p>Click on the Start button and select Settings (the gear icon).</p>
-            <p>2. Go to Network & Internet:</p>
-            <p>In the Settings window, click on Network & Internet.</p>
-            <p>3. Select Wi-Fi or Ethernet:</p>
-            <p>If you are using a Wi-Fi connection, click on Wi-Fi on the left side. If you are using an Ethernet connection, click on Ethernet on the left side.</p>
-            <p>4. Change Connection Properties:</p>
-            <p>Click on the name of your network connection.</p>
-            <p>Under Network profile, select Private.</p>
-            <p>5. Close Settings:</p>
-            <p>Close the Settings window to apply the changes.</p>
-            <p>By setting your network to private, your PC will be discoverable on the network, allowing you to share files and printers with other devices on the same network.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton43">ACCESS WINDOWS VIA 'SAFE MODE'</button>
-        <div class="content" id="content43" class="collapsed">
-            <p>(IF UNABLE TO OPEN WINDOWS DUE TO SYSTEM CRASH)</p>
-            <p>1. Hold down the power button for 10 seconds to turn off your system.</p>
-            <p>2. Press the power button again to turn on the system.</p>
-            <p>3. On the first sign that Windows has started (such as a Lenovo logo or other logo), hold down the power button for 10 seconds to turn off the system.</p>
-            <p>4. Press the power button again to turn on the system.</p>
-            <p>5. When Windows restarts, hold down the power button for 10 seconds to turn off the system.</p>
-            <p>6. Press the power button again to turn on the system.</p>
-            <p>7. Allow the system to fully restart. You will enter winRE.</p>
-            <p>8. On the Choose an option screen, select Troubleshoot > Advanced options > Startup Settings > Restart.</p>
-            <p>9. After your system restarts, select option 4 from the list or press F4 for Safe Mode.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton44">TURN ON/OFF THE SCREEN SAVER MODE ON WINDOWS 10/11</button>
-        <div class="content" id="content44" class="collapsed">
-            <p>1. Press the Windows key.</p>
-            <p>2. Type Change screen saver and press Enter.</p>
-            <p>3. Under the Screen Saver section, click the down arrow on the right side of the selection box.</p>
-            <p>4. Select preferred screensaver (to enable) or select "none" (to disable).</p>
-            <p>5. When done, click Apply and then OK.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton45">CLEAR DNS AND GOOGLE CHROME CACHE</button>
-        <div class="content" id="content45" class="collapsed">
-            <p>1. Go to the search bar and type "CMD." Then right-click and run as administrator.</p>
-            <p>2. Type the below command then hit the enter key. (Take a screenshot)</p>
-            <p>ipconfig /flushdns</p>
-            <p>*(must have a space between the ipconfig and /)</p>
-            <p>3. Open Google Chrome and click on the 3 vertical icons in the upper-right corner.</p>
-            <p>4. Then select "Settings."</p>
-            <p>5. Select "Privacy and Security" under Settings.</p>
-            <p>6. Click "Delete browsing data" under Privacy and Security.</p>
-            <p>7. Set the time range "All time" then click Delete data.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton46">UNABLE TO ACCESS ORIF MENU</button>
-        <div class="content" id="content46" class="collapsed">
-            <p>1. Turn off the ORION Plus and confirm that the power is OFF.</p>
-            <p>2. Keep it OFF for 1 hour and turn the ORION Plus back ON.</p>
-            <p>3. Wait for another 15 more minutes and check if you are now able to access ORIF menu http://192.168.100.1/.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton47">TEAMVIEWER LOCATION ON ORCA-PROVIDED COMPUTERS</button>
-        <div class="content" id="content47" class="collapsed">
-            <p>PC -> This PC -> Local Disk D -> Software</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton48">EXPLANATION REGARDING ORCA ORION PLUS AND SKYBERRY 4G WIFI</button>
-        <div class="content" id="content48" class="collapsed">
-            <p>ORCA Orion Plus is one of the backbones of the vessel's network. The Skyberry 4G WIFI acts as the main source of internet connection and once the Orion Plus is connected to the 4G WIFI, it will distribute the 4G WIFI's internet access to all the computers connected to the network. (From the bridge up to the ECR area)</p>
-            <p>This will also update the ESET antivirus as well as download the latest Windows updates provided by Microsoft daily.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton49">HOW TO ACCESS ORION DRIVE (PASSWORD REQUIRED)</button>
-        <div class="content" id="content49" class="collapsed">
-            <p>1. Open the file and once the credential window appears, click on “More choices”. <p>2. Select “Crew” and enter the credentials below.</p>
-            <p>ID: crew</p>
-            <p>Pass: goodvoyage</p>
-            <p>3. Check the “Remember my credentials” checkbox then hit OK.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton50">TROUBLESHOOTING ORION EYE (VESSEL'S USB CAMERA)</button>
-        <div class="content" id="content50" class="collapsed">
-            <p>1. Go to the ORIF menu (keep the USB Camera connected to the ORION Plus).</p>
-            <p>2. Click "STOP" button in EYE menu.</p>
-            <p>3. Remove the USB Camera from the ORION Plus USB slot.</p>
-            <p>4. Reboot the ORION Plus.</p>
-            <p>5. Plug in the USB Camera again then go to EYE menu > then click "START".</p>
-            <p>6. Refresh the Chrome page and check if capture is available.</p>
-            <p>If the above procedure doesn't resolve the issue, contact ORCA Japan for hardware replacement.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton51">CREWMAIL SOFTWARE LOCATION ON THE VESSEL'S COMPUTERS</button>
-        <div class="content" id="content51" class="collapsed">
-            <p>Go to This PC > Local Disk D > Software > send us screenshot</p>
-            <p>There should be a folder named CREW*** > (go to this folder).</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton52">CHECK THE NAS AND HDD BACKUP'S DATA STATUS</button>
-        <div class="content" id="content52" class="collapsed">
-            <p>To check the backup status, perform the following:</p>
-            <p>1. Find the External HDD connected to your NAS via a USB cable.</p>
-            <p>2. Remove the USB cable from the NAS ⇒ connect it to the nearest ORCA PC.</p>
-            <p>3. Open External HDD contents ⇒ check if all the files are new, compared with the NAS’s data.</p>
-            <p>To check the capacity, check the following:</p>
-            <p>- Keep the External HDD connected to the PC.</p>
-            <p>- Go to This PC ⇒ check the external HDD capacity. (take a screenshot for our reference)</p>
-            <p>*After performing the above conditions check, please make sure to connect the External HDD to the NAS again.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton53">REPAIR MICROSOFT OFFICE</button>
-        <div class="content" id="content53" class="collapsed">
-            <p>1. Go to Control Panel > Uninstall program > find Microsoft Office > right mouse click > Change.</p>
-            <p>2. Click "Quick repair" > wait for this to complete.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton54">COPYING NAS DATA TO EXTERNAL HDD TO PREVENT DATA-LOSS</button>
-        <div class="content" id="content54" class="collapsed">
-            <p>1. Open the NAS.</p>
-            <p>2. Choose all data and folders.</p>
-            <p>3. Copy all data to external HDD.</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="expand-collapse-btn" id="toggleButton55">CHECKING THE EXTERNAL HDD STATUS</button>
-        <div class="content" id="content55" class="collapsed">
-            <p>1. Go to NAS location.</p>
-            <p>2. Remove External HDD (21P0131) from NAS.</p>
-            <p>3. Connect External HDD to PC with USB cable.</p>
-            <p>4. Check if the "Daily" and "Weekly" folder has database which you need.</p>
-            <p>5. Please check if inside of Daily and Weekly folders which backup data are latest.</p>
-        </div>
-    </div>
-
-    <script>
-        const toggleButtons = document.querySelectorAll('.expand-collapse-btn');
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const content = document.getElementById(button.id.replace(' toggleButton', 'content'));
-                content.classList.toggle('collapsed');
-                button.textContent = content.classList.contains('collapsed') ? 'Expand Content' : 'Minimize Content';
-            });
-        });
-    </script>
-</body>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Troubleshooting Guide
+  </title>
+  <link container"="" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <button aria-controls="content1" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content1" data-bs-toggle="collapse" id="toggleButton1">
+   Troubleshooting Guide - Ship IT
+  </button>
+   <p>
+   </p>
+   <p>
+   </p>
+  </div>
+  <div class="container">
+   <button aria-controls="content2" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content2" data-bs-toggle="collapse" id="toggleButton2">
+    SHOW LIST OF NETWORK INTERFACE VIA CMD
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content2">
+    <p>
+     Commands:
+    </p>
+    <p>
+     netsh interface show interface
+    </p>
+    <p>
+     or
+    </p>
+    <p>
+     wmic nic get name
+    </p>
+    <p>
+     (it will show the index # and name of nic)
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content3" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content3" data-bs-toggle="collapse" id="toggleButton3">
+    VIEW MEMORY INFORMATION VIA CMD
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content3">
+    <p>
+     1. Open cmd (run as administrator)
+    </p>
+    <p>
+     2. Type the below command:
+    </p>
+    <p>
+     wmic memorychip get (devicelocator, manufacturer, partnumber, serialnumber, capacity, speed, memorytype, formfactor)
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content4" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content4" data-bs-toggle="collapse" id="toggleButton4">
+    ENABLE/DISABLE NETWORK INTERFACE VIA CMD
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content4">
+    <p>
+     Command (disable):
+    </p>
+    <p>
+     netsh interface set interface "Interface Name" disable
+    </p>
+    <p>
+     Command (enable):
+    </p>
+    <p>
+     netsh interface set interface "Interface Name" enable
+    </p>
+    <p>
+     or this command:
+    </p>
+    <p>
+     wmic path win32_networkadapter where index = 1 call disable
+    </p>
+    <p>
+     (the number must be replaced with the index of the network adapter)
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content5" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content5" data-bs-toggle="collapse" id="toggleButton5">
+    VIEW LOCAL ACCOUNT STATUS (JOINED DOMAIN)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content5">
+    <p>
+     1. Open CMD.
+    </p>
+    <p>
+     2. Type the below command and hit enter:
+    </p>
+    <p>
+     dsregCMD /status
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content6" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content6" data-bs-toggle="collapse" id="toggleButton6">
+    ENABLE "TELNET" IN WINDOWS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content6">
+    <p>
+     1. Open CMD.
+    </p>
+    <p>
+     2. Type the below command and hit enter:
+    </p>
+    <p>
+     pkgmgr /iu:"Tel netClient"
+    </p>
+    <p>
+     3. Restart CMD.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content7" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content7" data-bs-toggle="collapse" id="toggleButton7">
+    TEST ORCA IMAP Server FOR ISSUES
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content7">
+    <p>
+     Incoming Server: mail.orion.plus 993 (SSL)
+    </p>
+    <p>
+     Outgoing Server: mail.orion.plus 465 (SSL)
+    </p>
+    <p>
+     Test IMAP Server (Non-SSL method):
+    </p>
+    <p>
+     1. Run CMD.
+    </p>
+    <p>
+     2. Type: telnet mail.orion.plus 143
+    </p>
+    <p>
+     3. You should see the below message:
+    </p>
+    <p>
+     * OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE STARTTLS AUTH=PLAIN AUTH=LOGIN] Dovecot ready.
+    </p>
+    <p>
+     4. Enter the below command to exit:
+    </p>
+    <p>
+     a1 LOGOUT
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content8" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content8" data-bs-toggle="collapse" id="toggleButton8">
+    EMAIL TROUBLESHOOTING STEPS (ORCA) - GATHERING DATA
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content8">
+    <p>
+     1. Press Windows + R key.
+    </p>
+    <p>
+     2. Type CMD and open it.
+    </p>
+    <p>
+     3. Type the following command:
+    </p>
+    <p>
+     ping 18.181.139.55 or ping asshu.orion.plus
+    </p>
+    <p>
+     4. Then type the below command after:
+    </p>
+    <p>
+     ping 220.110.146.35 or ping saiun.orcajpn.co.jp
+    </p>
+    <p>
+     5. Take a screenshot for our reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content9" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content9" data-bs-toggle="collapse" id="toggleButton9">
+    USING THE OLD Server SETTINGS ON BACKUP PC
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content9">
+    <p>
+     1. Go to C drive-&gt;ORCAMail folder
+    </p>
+    <p>
+     2. Find the matome.ini and copy it to the desktop as a backup.
+    </p>
+    <p>
+     3. Right-click matome.ini located in the ORCA Mail folder and choose edit.
+    </p>
+    <p>
+     4. Find the following parts. (Take a screenshot)
+    </p>
+    <p>
+     CompressPop3.server=18.181.139.55
+    </p>
+    <p>
+     CompressSmtp.server=18.181.139.55
+    </p>
+    <p>
+     5. Modify the above info. with the below one. (Take a screenshot)
+    </p>
+    <p>
+     CompressPop3.server=220.110.146.35
+    </p>
+    <p>
+     CompressSmtp.server=220.110.146.35
+    </p>
+    <p>
+     6. Go to file-&gt;Click save
+    </p>
+    <p>
+     7. Restart/Reboot the PC.
+    </p>
+    <p>
+     8. Check again the Email connection after the reboot.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content10" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content10" data-bs-toggle="collapse" id="toggleButton10">
+    SLOW SENDING/RECEIVING OF EMAIL
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content10">
+    <p>
+     Reboot FBB terminal:
+    </p>
+    <p>
+     1. Turn off the FBB terminal power.
+    </p>
+    <p>
+     2. Wait for 30 minutes.
+    </p>
+    <p>
+     3. Turn on FBB terminal power.
+    </p>
+    <p>
+     4. Wait for 30 minutes.
+    </p>
+    <p>
+     5. Test email connection.
+    </p>
+    <p>
+     Reboot VSAT terminal:
+    </p>
+    <p>
+     1. Turn off the VSAT terminal power.
+    </p>
+    <p>
+     2. Wait for 30 minutes.
+    </p>
+    <p>
+     3. Turn on VSAT terminal power.
+    </p>
+    <p>
+     4. Wait for 30 minutes.
+    </p>
+    <p>
+     5. Test email connection.
+    </p>
+    <p>
+     Reboot STARLINK terminal:
+    </p>
+    <p>
+     1. Turn off the STARLINK terminal power.
+    </p>
+    <p>
+     2. Wait for 30 minutes.
+    </p>
+    <p>
+     3. Turn on STARLINK terminal power.
+    </p>
+    <p>
+     4. Wait for 30 minutes.
+    </p>
+    <p>
+     5. Test email connection.
+    </p>
+    &lt;
+    <p>
+     *Also reboot the Mail PC when rebooting the terminal.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content11" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content11" data-bs-toggle="collapse" id="toggleButton11">
+    ORCA MAIL APPLICATION ERROR
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content11">
+    <p>
+     1. Reboot the M-LIGHT PC Server and then open ORCA Mail.
+    </p>
+    <p>
+     2. Click the connect button.
+    </p>
+    <p>
+     3. Kindly take screenshots for errors that will show on the screen (if any).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content12" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content12" data-bs-toggle="collapse" id="toggleButton12">
+    HARDWARE DIAGNOSTIC PROGRAM (FOR DELL COMPUTERS)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content12">
+    <p>
+     1. Power on PC.
+    </p>
+    <p>
+     - If the PC is powered ON now, switch it OFF.
+    </p>
+    <p>
+     - After that, power it ON again.
+    </p>
+    <p>
+     2. Keep hitting the "F12" key.
+    </p>
+    <p>
+     - After step (1), keep hitting the "F12" key before the DELL logo appears.
+    </p>
+    <p>
+     3. Choose Diagnostics.
+    </p>
+    <p>
+     - When you succeed in step (2), the boot option menu will be shown.
+    </p>
+    <p>
+     - Choose "Diagnostics", and the Hardware test will start.
+    </p>
+    <p>
+     - If YES/NO message is shown please choose YES during the test.
+    </p>
+    <p>
+     4. Send us a screenshot.
+    </p>
+    <p>
+     - After the complete Diagnostics program, the result will appear on the screen.
+    </p>
+    <p>
+     - Please take a photo of that result and provide it to us.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content13" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content13" data-bs-toggle="collapse" id="toggleButton13">
+    WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (ABLE TO ACCESS WINDOWS DESKTOP)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content13">
+    <p>
+     1. Go to the search bar and type "CMD" then select "Run as administrator."
+    </p>
+    <p>
+     2. Once the command prompt (CMD) window is open, type the following command:
+    </p>
+    <p>
+     DISM.exe /Online /Cleanup-image /Scanhealth
+    </p>
+    <p>
+     3. Wait for the scan to finish then run the next command:
+    </p>
+    <p>
+     sfc /scannow
+    </p>
+    <p>
+     *The command should scan and repair corrupted/broken installation files.
+    </p>
+    <p>
+     4. Once done, kindly take a screenshot of it and send it for our reference.
+    </p>
+    <p>
+     5. Restart the PC.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content14" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content14" data-bs-toggle="collapse" id="toggleButton14">
+    WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (UNABLE TO ACCESS WINDOWS DESKTOP) METHOD-1
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content14">
+    <p>
+     1. Turn off the PC.
+    </p>
+    <p>
+     2. Press F11 as soon as you turn on the PC then recovery environment will show.
+    </p>
+    <p>
+     3. Choose Troubleshoot-&gt;Advanced options-&gt;Command prompt.
+    </p>
+    <p>
+     4. Once the command prompt (CMD) window is open, type the following command then hit enter:
+    </p>
+    <p>
+     chkdsk C: /f /r
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     5. Then type the following command then hit enter:
+    </p>
+    <p>
+     sfc /scannow
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     6. Restart the PC and check if it will be able to access the desktop.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content15" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content15" data-bs-toggle="collapse" id="toggleButton15">
+    WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (UNABLE TO ACCESS WINDOWS DESKTOP) METHOD-2
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content15">
+    <p>
+     1. Turn off the PC.
+    </p>
+    <p>
+     2. Press F11 as soon as you turn on the PC then the recovery environment will show.
+    </p>
+    <p>
+     3. Choose Troubleshoot-&gt;Advanced options-&gt;Command prompt.
+    </p>
+    <p>
+     4. Once the command prompt (CMD) window is open, type the following command then hit enter:
+    </p>
+    <p>
+     bootrec /fixmbr
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     5. Then on the CMD, type the following command then hit enter:
+    </p>
+    <p>
+     bootrec /fixboot
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     6. Then on the CMD, type the following command then hit enter:
+    </p>
+    <p>
+     bootrec /scanos
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     7. Then on the CMD, type the following command then hit enter:
+    </p>
+    <p>
+     bootrec /rebuildbcd
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     8. Restart the PC and check if it will be able to access the desktop.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content16" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content16" data-bs-toggle="collapse" id="toggleButton16">
+    WINDOWS OS SYSTEM REPAIR DIAGNOSTIC (UNABLE TO ACCESS WINDOWS DESKTOP) METHOD-3
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content16">
+    <p>
+     1. Turn off the PC.
+    </p>
+    <p>
+     2. Press F11 as soon as you turn on the PC then the recovery environment will show.
+    </p>
+    <p>
+     3. Choose Troubleshoot-&gt;Advanced options-&gt;Command prompt.
+    </p>
+    <p>
+     4. Once the command prompt (CMD) window is open, type the following command then hit enter:
+    </p>
+    <p>
+     DISM /Online /Cleanup-Image /CheckHealth
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     5. Then on the CMD, type the following command then hit enter:
+    </p>
+    <p>
+     DISM /Online /Cleanup-Image /ScanHealth
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     6. Then on the CMD, type the following command then hit enter:
+    </p>
+    <p>
+     DISM /Online /Cleanup-Image /RestoreHealth /Source:repairSource\install.wim
+    </p>
+    <p>
+     *Wait for the scan to finish (take a screenshot).
+    </p>
+    <p>
+     7. Restart the PC and check if it will be able to access the desktop.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content17" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content17" data-bs-toggle="collapse" id="toggleButton17">
+    RESET WINDOWS 10/11 TO DEFAULT CONFIGURATION VIA CMD (FILES WILL BE SAVED)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content17">
+    <p>
+     *Should be used as a last troubleshooting resort.
+    </p>
+    <p>
+     1. Turn off the PC.
+    </p>
+    <p>
+     2. Press F11 as soon as you turn on the PC then the recovery environment will show.
+    </p>
+    <p>
+     3. Choose Troubleshoot-&gt;Advanced options-&gt;Command prompt.
+    </p>
+    <p>
+     4. Once the command prompt (CMD) window is open, type the following command then hit enter:
+    </p>
+    <p>
+     systemreset -cleanpc
+    </p>
+    <p>
+     5. Then the fresh restart window will open, just click next and it will automatically do the process.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content18" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content18" data-bs-toggle="collapse" id="toggleButton18">
+    RUN "SYSTEM RESTORE" USING CMD
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content18">
+    <p>
+     1. Turn off the PC.
+    </p>
+    <p>
+     2. Press F11 as soon as you turn on the PC then the recovery environment will show.
+    </p>
+    <p>
+     3. Choose Troubleshoot-&gt;Advanced options-&gt;Command prompt.
+    </p>
+    <p>
+     4. Once the command prompt (CMD) window is open, type the following command then hit enter:
+    </p>
+    <p>
+     rstrui.exe
+    </p>
+    <p>
+     *It will show the System Restore window and then proceed to restore the system on the last system point where the PC is in a good state.
+    </p>
+    <p>
+     *The System Restore should be active and have saved restore points for this to recover the system successfully.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content19" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content19" data-bs-toggle="collapse" id="toggleButton19">
+    REBOOTING NAS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content19">
+    <p>
+     1. Press and hold Power button until it produces a beep sound.
+    </p>
+    <p>
+     2. Wait for 10 minutes.
+    </p>
+    <p>
+     3. Check if the LED is unlit.
+    </p>
+    <p>
+     4. Push the power button again.
+    </p>
+    <p>
+     5. Wait for 15 minutes.
+    </p>
+    <p>
+     6. Type "CMD" on the search bar.
+    </p>
+    <p>
+     7. Then type ping nethdd (Take a screenshot).
+    </p>
+    <p>
+     8. Take also a photo of the NAS's LED lamp.
+    </p>
+    <p>
+     9. Try to access again the NAS.
+    </p>
+    <p>
+     *Proceed with TeamViewer troubleshooting process afterward for verification.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content20" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content20" data-bs-toggle="collapse" id="toggleButton20">
+    M-LIGHT Server REBOOT PROCESS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content20">
+    <p>
+     1. Reboot/Restart the M-LIGHT Server. (Close the Google Chrome web browser before restarting/rebooting)
+    </p>
+    <p>
+     2. Wait for 5 minutes after the reboot then double-click the M-LIGHT shortcut icon on the desktop to access the M-LIGHT login screen. (Take a screenshot)
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content21" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content21" data-bs-toggle="collapse" id="toggleButton21">
+    M-LIGHT (UNABLE TO ACCESS THE LOGIN SCREEN AND STUCK AT SOLVERMINDS)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content21">
+    <p>
+     1. Reboot/Restart the M-LIGHT Server. (Close the Google Chrome web browser before restarting/rebooting)
+    </p>
+    <p>
+     2. Wait for 5 minutes after the reboot then double-click the M-LIGHT shortcut icon on the desktop to access the M-LIGHT login screen. (Take a screenshot)
+    </p>
+    <p>
+     If still unable to access the M-LIGHT login screen:
+    </p>
+    <p>
+     1. Go to the search bar and type "CMD." Then right-click and run as administrator.
+    </p>
+    <p>
+     2. Type the below command then hit the enter key. (Take a screenshot)
+    </p>
+    <p>
+     ipconfig /flushdns
+    </p>
+    <p>
+     *(must have a space between the ipconfig and /)
+    </p>
+    <p>
+     3. Open Google Chrome and click on the 3 vertical icons in the upper-right corner.
+    </p>
+    <p>
+     4. Then select "Settings."
+    </p>
+    <p>
+     5. Select "Privacy and Security" under Settings.
+    </p>
+    <p>
+     6. Click "Delete browsing data" under Privacy and Security.
+    </p>
+    <p>
+     7. Set the time range "All time" then click Delete data.
+    </p>
+    <p>
+     8. Then close Google Chrome and open the M-LIGHT Shortcut on the desktop to check if you are now able to access the login screen.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content22" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content22" data-bs-toggle="collapse" id="toggleButton22">
+    M-LIGHT (CHECK IF THE MACK SERVICE IS RUNNING)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content22">
+    <p>
+     1. Go to the search bar and type "Services" then hit the enter key.
+    </p>
+    <p>
+     2. On the "Services" window, scroll down and find the word "MACK" in the name column under Services (Local).
+    </p>
+    <p>
+     3. Check if the "MACK" service is running (Take a screenshot).
+    </p>
+    <p>
+     4. Type "http://localhost:8000/" in the address bar and press Enter to open the "Server Maintenance" screen. (Take a screenshot).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content23" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content23" data-bs-toggle="collapse" id="toggleButton23">
+    CONNECTING TO SKYBERRY 4G WIFI VIA ORIF MENU
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content23">
+    <p>
+     1. Access the ORIF by typing the below address on a web browser (Google Chrome/Edge):
+    </p>
+    <p>
+     http://192.168.100.1/
+    </p>
+    <p>
+     2. Login using the below credentials:
+    </p>
+    <p>
+     - ID: ship
+    </p>
+    <p>
+     - PW: 8lue0cean
+    </p>
+    <p>
+     3. Go to WIFI on the left-side corner of the ORIF screen and scan SSID.
+    </p>
+    <p>
+     4. Search for the Skyberry 4G WIFI (the device's power should be ON at this moment).
+    </p>
+    <p>
+     5. Click connect to the vessel's Skyberry 4G WIFI and check if "connected" is shown on the screen.
+    </p>
+    <p>
+     6. To disconnect, kindly turn off the Skyberry 4G WIFI.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content24" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content24" data-bs-toggle="collapse" id="toggleButton24">
+    SETTINGS FOR UPDATING M-LIGHT BACKUP PATH
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content24">
+    <p>
+     Open the File Explorer:
+    </p>
+    <p>
+     1. Create a Folder on the Shared Server.
+    </p>
+    <p>
+     Please create the following folder on the NAS (//nethdd/disck/):
+    </p>
+    <p>
+     Folder name: M-LIGHT_Backup
+    </p>
+    <p>
+     Incorrect path:
+    </p>
+    <p>
+     D:\MLIGHT_BACKUP
+    </p>
+    <p>
+     Correct path:
+    </p>
+    <p>
+     \\nethdd\disk\M-LIGHT_Backup
+    </p>
+    <p>
+     The folder name must be "M-LIGHT_Backup."
+    </p>
+    <p>
+     2. Log in using your MASTER account.
+    </p>
+    <p>
+     3. Choose the "Back up configuration."
+    </p>
+    <p>
+     - Select the blue eyeball icon.
+    </p>
+    <p>
+     - Press the 3 dots mark.
+    </p>
+    <p>
+     - Press Edit.
+    </p>
+    <p>
+     - Please rewrite the path.
+    </p>
+    <p>
+     - Please check Retention, then "10."
+    </p>
+    <p>
+     - Please check Auto Backup Time, enter the 03:00.
+    </p>
+    <p>
+     - Press Save.
+    </p>
+    <p>
+     Once you have pressed Save, please send us a screenshot.
+    </p>
+    <p>
+     *If an error occurs while saving the modified settings, please send the error details/take a screenshot for our reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content25" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content25" data-bs-toggle="collapse" id="toggleButton25">
+    M-LIGHT PC Server UNABLE TO OPEN
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content25">
+    <p>
+     1. Power on the M-LIGHT PC Server.
+    </p>
+    <p>
+     2. Check if it loads until completely displays the login screen. (take a photo)
+    </p>
+    <p>
+     *If the booting of Windows did not reach the login screen, take a photo of the actual status of the M-LIGHT PC Server while booting to Windows.
+    </p>
+    <p>
+     3. If successfully reach the login screen, try to log in to the M-LIGHT PC Server as usual. (take a photo)
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content26" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content26" data-bs-toggle="collapse" id="toggleButton26">
+    M-LIGHT SHORTCUT MODIFICATION (1)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content26">
+    <p>
+     1. Right-click on the M-LIGHT shortcut.
+    </p>
+    <p>
+     2. Go to the "Web Document" tab.
+    </p>
+    <p>
+     3. Change the URL to: (copy the path below and paste it)
+    </p>
+    <p>
+     http://m-light:8080
+    </p>
+    <p>
+     4. Click 'Apply" then take a screenshot before clicking the "OK" button.
+    </p>
+    <p>
+     5. Open the modified M-LIGHT shortcut and take a screenshot of the M-LIGHT login screen.
+    </p>
+    <p>
+     *Send us the 2 screenshots requested above for our reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content27" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content27" data-bs-toggle="collapse" id="toggleButton27">
+    M-LIGHT SHORTCUT MODIFICATION (2)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content27">
+    <p>
+     Remove/Delete first the existing M-LIGHT shortcut.
+    </p>
+    <p>
+     1. Copy the "Google Chrome" shortcut on the desktop and paste it on the desktop.
+    </p>
+    <p>
+     2. Right-click the copied shortcut to display its properties.
+    </p>
+    <p>
+     3. Change "Target" in the shortcut tab with the below one (copy the entire target path):
+    </p>
+    <p>
+     "C:\Program Files\Google\Chrome\Application\chrome.exe" "http://m-light:8080/"
+    </p>
+    <p>
+     *Just in case the error "Path Invalid" occurs, copy the below target path instead:
+    </p>
+    <p>
+     "C:\Users\M-LIGHT ADMIN\AppData\Local\Google\Chrome\Application\chrome.exe" "http://m-light:8080/"
+    </p>
+    &lt;
+    <p>
+     (Must have " at the beginning and end of the above command.)
+    </p>
+    <p>
+     4. In the "General" tab, change the name item from "Google Chrome" to "M-Light."
+    </p>
+    <p>
+     5. Click "Apply" -&gt; "OK" to create a shortcut of M-LIGHT on the desktop.
+    </p>
+    <p>
+     Then open the shortcut and check if the M-LIGHT login screen will show (take a screenshot).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content28" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content28" data-bs-toggle="collapse" id="toggleButton28">
+    SKYBERRY 4G WIFI (UNABLE TO CONNECT TO 4G NETWORK)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content28">
+    <p>
+     1. Press and hold the reset button (the small button below the power button) with a pointed object like a clip for at least 10 seconds while the power is on.
+    </p>
+    <p>
+     2. The system will automatically reboot.
+    </p>
+    <p>
+     3. Wait for a few minutes until the fan-shaped indicator on the left side lights up.
+    </p>
+    <p>
+     4. When the fan-shaped indicator lights up, connect to WiFi and check the communication.
+    </p>
+    <p>
+     *For checking the Skyberry connection, directly connect the M-LIGHT PC Server via wifi then access the Skyberry GUI below.
+    </p>
+    <p>
+     Skyberry GUI access: http://192.168.43.1/
+    </p>
+    <p>
+     *Take a screenshot for reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content29" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content29" data-bs-toggle="collapse" id="toggleButton29">
+    CHECK WINDOWS UPDATE INSTALLATION HISTORY
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content29">
+    <p>
+     1. Type CMD on the search bar.
+    </p>
+    <p>
+     2. Run CMD as administrator.
+    </p>
+    <p>
+     3. On the CMD window, copy-paste the below command:
+    </p>
+    <p>
+     wmic qfe list
+    </p>
+    <p>
+     4. Take a screenshot of the result for our reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content30" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content30" data-bs-toggle="collapse" id="toggleButton30">
+    FBB/VSAT/IRIDIUM CERTUS CONNECTIVITY ISSUE
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content30">
+    <p>
+     Failover the connection from VSAT to FBB.
+    </p>
+    <p>
+     ON the rack, find the XChange FX device (it has black FX sticker on the front side and it has an LCD display on the front left side and under the display there are 4 arrow buttons left up down right).
+    </p>
+    <p>
+     - Press &gt; arrow and you will see the Installation Menu.
+    </p>
+    <p>
+     - Then press the v arrow until the NSD menu and press &gt;.
+    </p>
+    <p>
+     - Press the v arrow until Force FBB menu and then press &gt;.
+    </p>
+    <p>
+     - At the Force FBB menu press &gt; arrow to say YES.
+    </p>
+    <p>
+     Now the ship-shore data connection should be over the FBB link.
+    </p>
+    <p>
+     *If an internet connection still cannot be established, please restart the FBB terminal and repeat the above procedure.
+    </p>
+    <p>
+     *FBB GUI access: http://192.168.128.100/
+    </p>
+    <p>
+     *Take a screenshot for reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content31" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content31" data-bs-toggle="collapse" id="toggleButton31">
+    NAS ERROR ISSUES
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content31">
+    <p>
+     1. Connect the external HDD to any PC in the bridge area.
+    </p>
+    <p>
+     2. Check if it is accessible.
+    </p>
+    <p>
+     If the external HDD is not accessible:
+    </p>
+    <p>
+     1. Turn off the External HDD's power for 5 minutes.
+    </p>
+    <p>
+     2. Turn on the External HDD.
+    </p>
+    <p>
+     3. Plug the USB cable into any PC and check if the External HDD is accessible.
+    </p>
+    <p>
+     If still not accessible:
+    </p>
+    <p>
+     1. Access the "This PC" and locate the drive letter of the HDD backup.
+    </p>
+    <p>
+     2. Right-click and choose properties.
+    </p>
+    <p>
+     3. Take a screenshot for our reference.
+    </p>
+    <p>
+     Once the status has been checked:
+    </p>
+    <p>
+     1. Right-click Windows start button.
+    </p>
+    <p>
+     2. Select Disk management.
+    </p>
+    &lt;
+    <p>
+     3. Right-click "(E:) 1863.02GB RAW."
+    </p>
+    <p>
+     4. Select Format.
+    </p>
+    <p>
+     5. Click Yes.
+    </p>
+    <p>
+     6. Click File System and select NTFS.
+    </p>
+    <p>
+     7. Select "Perform a quick format."
+    </p>
+    <p>
+     8. Click OK.
+    </p>
+    <p>
+     9. Check the external HDD if it is now accessible.
+    </p>
+    <p>
+     10. Copy the data from the NAS to the external HDD just in case the NAS will be inaccessible. (external HDD is twice the size of the NAS).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content32" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content32" data-bs-toggle="collapse" id="toggleButton32">
+    REPLACING THE HDD ON THE NAS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content32">
+    <p>
+     1. Prepare the spare HDD for the NAS and a Phillips head screwdriver.
+    </p>
+    <p>
+     2. Keep the NAS turned on (Do Not turn off).
+    </p>
+    <p>
+     3. Remove the HDD1 from the NAS (HDD1 is the upper side HDD).
+    </p>
+    <p>
+     4. Remove the HDD from the HDD1 tray and replace it with a new HDD. (spare HDD).
+    </p>
+    <p>
+     *The HDD is secured in place with screws, so remove them using a Phillips head screwdriver.
+    </p>
+    <p>
+     5. Once the new HDD is installed in the tray, simply insert it into the HDD1 slot of the NAS.
+    </p>
+    <p>
+     6. Wait a while until the HDD1 LED turns green or flashes green, and the Status lamp is also green.
+    </p>
+    <p>
+     *(It may take several hours to sync the HDD.)
+    </p>
+    <p>
+     7. After you replace the HDD, please check that you can access the NAS.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content33" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content33" data-bs-toggle="collapse" id="toggleButton33">
+    CHECK HDD WITH CHKDSK COMMAND
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content33">
+    <p>
+     1. In the Run box, type CMD and press Ctrl + Shift + Enter to run Command Prompt as administrator.
+    </p>
+    <p>
+     2. Then type CHKDSK C: /f and press Enter to run the command.
+    </p>
+    <p>
+     *You can replace C with the drive letter of the drive that you want to scan and fix.
+    </p>
+    <p>
+     3. Once done, reboot your PC and check if the issue is fixed.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content34" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content34" data-bs-toggle="collapse" id="toggleButton34">
+    NAVBOX REPLACEMENT PROCEDURE
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content34">
+    <p>
+     (1) Replace Connect Cube to Navbox.
+    </p>
+    <p>
+     Connect Navbox directly to the LAN port that Connect Cube was connected to.
+    </p>
+    <p>
+     (2) Change Chart PC to automatic IP.
+    </p>
+    <p>
+     Please operate at the Chart PC of the following:
+    </p>
+    <p>
+     1. Control Panel -&gt; Network and Internet -&gt; Network and Sharing Center -&gt; Change adapter settings.
+    </p>
+    <p>
+     2. Right-click "Ethernet" -&gt; property -&gt; Internet Protocol version 4(TCP / IPv4).
+    </p>
+    <p>
+     3. Select "Obtain an IP address automatically" and "Obtain DNS Server address automatically."
+    </p>
+    <p>
+     4. OK button.
+    </p>
+    <p>
+     (3) Install Navtor software following Navtor instructions.
+    </p>
+    <p>
+     Please contact Navtor support directly for instructions on how to install the software.
+    </p>
+    <p>
+     (4) Verify that Navtor software can be successfully updated through Navbox.
+    </p>
+    <p>
+     (5) Please take photos of the LAN connection after installing the Navbox.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content35" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content35" data-bs-toggle="collapse" id="toggleButton35">
+    SLOW SENDING AND RECEIVING OF EMAIL
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content35">
+    <p>
+     1. Check if ORIF GUI is accessible: 192.168.100.1.
+    </p>
+    <p>
+     2. Check the computer's email sending and receiving performance.
+    </p>
+    <p>
+     3. Request to provide the "hosts" file of the computer.
+    </p>
+    <p>
+     Follow the below access procedure:
+    </p>
+    <p>
+     a.) C Drive -&gt; Windows -&gt; System32 -&gt; Drivers -&gt; etc folder.
+    </p>
+    <p>
+     b.) Inside from the etc folder look for "hosts."
+    </p>
+    <p>
+     c.) Send us that file (hosts).
+    </p>
+    <p>
+     *Check whether the crew internet is causing issues with the email's sending and receiving performance.
+    </p>
+    <p>
+     - Open ORCA ORIF (http://192.168.100.1/).
+    </p>
+    <p>
+     - Click User Login, and input ID and Password.
+    </p>
+    <p>
+     - Go to Tickets.
+    </p>
+    <p>
+     - Find Ticket SW &gt; This will be your switch.
+    </p>
+    <p>
+     - Turn OFF the switch.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content36" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content36" data-bs-toggle="collapse" id="toggleButton36">
+    ALTERNATE TROUBLESHOOTING (LOW RAM INSTALLED/FAST OVERHEATING OF THE LAPTOP)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content36">
+    <p>
+     1. Slightly elevate the laptop for the hot air to circulate outside the laptop.
+    </p>
+    <p>
+     2. Turn off the computer for about 2 minutes then turn it on again after 2 hours of operation for the RAM to be refreshed.
+    </p>
+    <p>
+     3. Monitor the 2 PCs' performance and inform us of any other issues.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content37" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content37" data-bs-toggle="collapse" id="toggleButton37">
+    FORM1 (BACKGROUNDTASKHOST.EXE - SYSTEM ERROR) ISSUE
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content37">
+    <p>
+     1. Hit the Start button.
+    </p>
+    <p>
+     2. Go to Settings &gt; Personalization &gt; Lock screen.
+    </p>
+    <p>
+     3. Select Screen saver settings.
+    </p>
+    <p>
+     4. In the Screen saver settings window, choose a screen saver from the drop-down list.
+    </p>
+    <p>
+     5. Choose from the default screensavers (ribbon, radiant, or mystify).
+    </p>
+    <p>
+     6. Click Apply.
+    </p>
+    <p>
+     (Take screenshots for our reference)
+    </p>
+    <p>
+     Reboot the computer afterward, then observe if the issue has been resolved.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content38" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content38" data-bs-toggle="collapse" id="toggleButton38">
+    TROUBLESHOOTING VSAT CONNECTIVITY ISSUE
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content38">
+    <p>
+     1. Power off the whole VSAT Rack equipment. (DO NOT TURN ON IMMEDIATELY)
+    </p>
+    <p>
+     2. Wait for 30 minutes.
+    </p>
+    <p>
+     3. Power on the whole VSAT Rack equipment.
+    </p>
+    <p>
+     4. Wait for 30 minutes.
+    </p>
+    <p>
+     5. Check the connection.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content39" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content39" data-bs-toggle="collapse" id="toggleButton39">
+    CHECKING OF ACTUAL IT DEVICES (REMOTELY)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content39">
+    <p>
+     1. Go to the search bar and type "CMD" then choose "run as administrator." After that, maximize the screen of the CMD window.
+    </p>
+    <p>
+     2. Type the below command, hit enter, and then take a screenshot of the entire result:
+    </p>
+    <p>
+     systeminfo
+    </p>
+    <p>
+     3. Type the below command, hit enter, and then take a screenshot of the entire result:
+    </p>
+    <p>
+     ipconfig /all
+    </p>
+    <p>
+     4. Type the below command, hit enter, and then take a screenshot of the entire result:
+    </p>
+    <p>
+     powershell "get-physicaldisk | format-table -autosize"
+    </p>
+    <p>
+     5. Type the below command and hit enter:
+    </p>
+    <p>
+     wmic
+    </p>
+    <p>
+     It will show the “wmic:root\cli&gt;”, then type the below command and then hit enter:
+    </p>
+    <p>
+     /node:TargetPC product get name, version, vendor
+    </p>
+    <p>
+     *Take note to change the TargetPC based on the PC that you are running the command.
+    </p>
+    <p>
+     Example:
+    </p>
+    <p>
+     For ORCA2211C04, run the command after entering the wmic in the command prompt.
+    </p>
+    <p>
+     /node:ORCA2211C04 product get name, version, vendor
+    </p>
+    <p>
+     For ORCA2212029, run the command after entering the wmic in the command prompt.
+    </p>
+    <p>
+     /node: ORCA2212029 product get name, version, vendor
+    </p>
+    <p>
+     6. Take a screenshot of the entire result and send all the screenshots for our reference.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content40" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content40" data-bs-toggle="collapse" id="toggleButton40">
+    TROUBLESHOOTING NETWORK ISSUES (ON CLIENT COMPUTERS)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content40">
+    <p>
+     Step 1:
+    </p>
+    <p>
+     1. Unplug LAN cable from port.
+    </p>
+    <p>
+     2. Reboot this network hub.
+    </p>
+    <p>
+     3. Plug LAN cable to port again.
+    </p>
+    <p>
+     4. Check if your device can get IP address from Crew WiFi access point.
+    </p>
+    <p>
+     Step 2:
+    </p>
+    <p>
+     1. Go to Windows search.
+    </p>
+    <p>
+     2. Input CMD.
+    </p>
+    <p>
+     3. Run Command prompt.
+    </p>
+    <p>
+     4. Input the following command and hit enter:
+    </p>
+    <p>
+     ipconfig /all
+    </p>
+    <p>
+     5. Take a screenshot of the result and send it to us.
+    </p>
+    <p>
+     Step 3:
+    </p>
+    <p>
+     1. Go to control panel-&gt;Network and internet-&gt;Network Connections.
+    </p>
+    <p>
+     2. Right-click Ethernet.
+    </p>
+    <p>
+     3. Click Disable.
+    </p>
+    <p>
+     4. Right-click Ethernet again.
+    </p>
+    <p>
+     5. Click Enable.
+    </p>
+    <p>
+     6. Perform ipconfig and take a screenshot.
+    </p>
+    <p>
+     Step 4:
+    </p>
+    <p>
+     1. Go to control panel-&gt;Network and internet-&gt;Network Connections.
+    </p>
+    <p>
+     2. Right-click Ethernet.
+    </p>
+    <p>
+     3. Click Properties.
+    </p>
+    <p>
+     4. Find Internet Protocol Version 4 and double click it.
+    </p>
+    <p>
+     5. Set IP address as per the attached file:
+    </p>
+    <p>
+     Set IP address to static (file).
+    </p>
+    <p>
+     6. After that, check if your M-LIGHT PC can open ORIF menu (http://192.168.100.1) (Y/N).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content41" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content41" data-bs-toggle="collapse" id="toggleButton41">
+    CHECKING STARLINK CONNECTION
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content41">
+    <p>
+     1. Unplug STARLINK connection cable on WAN1 and directly connect it to PC.
+    </p>
+    <p>
+     2. Open internet browser and check if it can access the internet (external webpages).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content42" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content42" data-bs-toggle="collapse" id="toggleButton42">
+    M-LIGHT BACKUP ISSUES
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content42">
+    <p>
+     1. Open Settings:
+    </p>
+    <p>
+     Click on the Start button and select Settings (the gear icon).
+    </p>
+    <p>
+     2. Go to Network &amp; Internet:
+    </p>
+    <p>
+     In the Settings window, click on Network &amp; Internet.
+    </p>
+    <p>
+     3. Select Wi-Fi or Ethernet:
+    </p>
+    <p>
+     If you are using a Wi-Fi connection, click on Wi-Fi on the left side. If you are using an Ethernet connection, click on Ethernet on the left side.
+    </p>
+    <p>
+     4. Change Connection Properties:
+    </p>
+    <p>
+     Click on the name of your network connection.
+    </p>
+    <p>
+     Under Network profile, select Private.
+    </p>
+    <p>
+     5. Close Settings:
+    </p>
+    <p>
+     Close the Settings window to apply the changes.
+    </p>
+    <p>
+     By setting your network to private, your PC will be discoverable on the network, allowing you to share files and printers with other devices on the same network.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content43" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content43" data-bs-toggle="collapse" id="toggleButton43">
+    ACCESS WINDOWS VIA 'SAFE MODE'
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content43">
+    <p>
+     (IF UNABLE TO OPEN WINDOWS DUE TO SYSTEM CRASH)
+    </p>
+    <p>
+     1. Hold down the power button for 10 seconds to turn off your system.
+    </p>
+    <p>
+     2. Press the power button again to turn on the system.
+    </p>
+    <p>
+     3. On the first sign that Windows has started (such as a Lenovo logo or other logo), hold down the power button for 10 seconds to turn off the system.
+    </p>
+    <p>
+     4. Press the power button again to turn on the system.
+    </p>
+    <p>
+     5. When Windows restarts, hold down the power button for 10 seconds to turn off the system.
+    </p>
+    <p>
+     6. Press the power button again to turn on the system.
+    </p>
+    <p>
+     7. Allow the system to fully restart. You will enter winRE.
+    </p>
+    <p>
+     8. On the Choose an option screen, select Troubleshoot &gt; Advanced options &gt; Startup Settings &gt; Restart.
+    </p>
+    <p>
+     9. After your system restarts, select option 4 from the list or press F4 for Safe Mode.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content44" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content44" data-bs-toggle="collapse" id="toggleButton44">
+    TURN ON/OFF THE SCREEN SAVER MODE ON WINDOWS 10/11
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content44">
+    <p>
+     1. Press the Windows key.
+    </p>
+    <p>
+     2. Type Change screen saver and press Enter.
+    </p>
+    <p>
+     3. Under the Screen Saver section, click the down arrow on the right side of the selection box.
+    </p>
+    <p>
+     4. Select preferred screensaver (to enable) or select "none" (to disable).
+    </p>
+    <p>
+     5. When done, click Apply and then OK.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content45" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content45" data-bs-toggle="collapse" id="toggleButton45">
+    CLEAR DNS AND GOOGLE CHROME CACHE
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content45">
+    <p>
+     1. Go to the search bar and type "CMD." Then right-click and run as administrator.
+    </p>
+    <p>
+     2. Type the below command then hit the enter key. (Take a screenshot)
+    </p>
+    <p>
+     ipconfig /flushdns
+    </p>
+    <p>
+     *(must have a space between the ipconfig and /)
+    </p>
+    <p>
+     3. Open Google Chrome and click on the 3 vertical icons in the upper-right corner.
+    </p>
+    <p>
+     4. Then select "Settings."
+    </p>
+    <p>
+     5. Select "Privacy and Security" under Settings.
+    </p>
+    <p>
+     6. Click "Delete browsing data" under Privacy and Security.
+    </p>
+    <p>
+     7. Set the time range "All time" then click Delete data.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content46" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content46" data-bs-toggle="collapse" id="toggleButton46">
+    UNABLE TO ACCESS ORIF MENU
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content46">
+    <p>
+     1. Turn off the ORION Plus and confirm that the power is OFF.
+    </p>
+    <p>
+     2. Keep it OFF for 1 hour and turn the ORION Plus back ON.
+    </p>
+    <p>
+     3. Wait for another 15 more minutes and check if you are now able to access ORIF menu http://192.168.100.1/.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content47" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content47" data-bs-toggle="collapse" id="toggleButton47">
+    TEAMVIEWER LOCATION ON ORCA-PROVIDED COMPUTERS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content47">
+    <p>
+     PC -&gt; This PC -&gt; Local Disk D -&gt; Software
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content48" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content48" data-bs-toggle="collapse" id="toggleButton48">
+    EXPLANATION REGARDING ORCA ORION PLUS AND SKYBERRY 4G WIFI
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content48">
+    <p>
+     ORCA Orion Plus is one of the backbones of the vessel's network. The Skyberry 4G WIFI acts as the main source of internet connection and once the Orion Plus is connected to the 4G WIFI, it will distribute the 4G WIFI's internet access to all the computers connected to the network. (From the bridge up to the ECR area)
+    </p>
+    <p>
+     This will also update the ESET antivirus as well as download the latest Windows updates provided by Microsoft daily.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content49" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content49" data-bs-toggle="collapse" id="toggleButton49">
+    HOW TO ACCESS ORION DRIVE (PASSWORD REQUIRED)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content49">
+    <p>
+     1. Open the file and once the credential window appears, click on “More choices”.
+     <p>
+      2. Select “Crew” and enter the credentials below.
+     </p>
+     <p>
+      ID: crew
+     </p>
+     <p>
+      Pass: goodvoyage
+     </p>
+     <p>
+      3. Check the “Remember my credentials” checkbox then hit OK.
+     </p>
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content50" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content50" data-bs-toggle="collapse" id="toggleButton50">
+    TROUBLESHOOTING ORION EYE (VESSEL'S USB CAMERA)
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content50">
+    <p>
+     1. Go to the ORIF menu (keep the USB Camera connected to the ORION Plus).
+    </p>
+    <p>
+     2. Click "STOP" button in EYE menu.
+    </p>
+    <p>
+     3. Remove the USB Camera from the ORION Plus USB slot.
+    </p>
+    <p>
+     4. Reboot the ORION Plus.
+    </p>
+    <p>
+     5. Plug in the USB Camera again then go to EYE menu &gt; then click "START".
+    </p>
+    <p>
+     6. Refresh the Chrome page and check if capture is available.
+    </p>
+    <p>
+     If the above procedure doesn't resolve the issue, contact ORCA Japan for hardware replacement.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content51" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content51" data-bs-toggle="collapse" id="toggleButton51">
+    CREWMAIL SOFTWARE LOCATION ON THE VESSEL'S COMPUTERS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content51">
+    <p>
+     Go to This PC &gt; Local Disk D &gt; Software &gt; send us screenshot
+    </p>
+    <p>
+     There should be a folder named CREW*** &gt; (go to this folder).
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content52" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content52" data-bs-toggle="collapse" id="toggleButton52">
+    CHECK THE NAS AND HDD BACKUP'S DATA STATUS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content52">
+    <p>
+     To check the backup status, perform the following:
+    </p>
+    <p>
+     1. Find the External HDD connected to your NAS via a USB cable.
+    </p>
+    <p>
+     2. Remove the USB cable from the NAS ⇒ connect it to the nearest ORCA PC.
+    </p>
+    <p>
+     3. Open External HDD contents ⇒ check if all the files are new, compared with the NAS’s data.
+    </p>
+    <p>
+     To check the capacity, check the following:
+    </p>
+    <p>
+     - Keep the External HDD connected to the PC.
+    </p>
+    <p>
+     - Go to This PC ⇒ check the external HDD capacity. (take a screenshot for our reference)
+    </p>
+    <p>
+     *After performing the above conditions check, please make sure to connect the External HDD to the NAS again.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content53" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content53" data-bs-toggle="collapse" id="toggleButton53">
+    REPAIR MICROSOFT OFFICE
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content53">
+    <p>
+     1. Go to Control Panel &gt; Uninstall program &gt; find Microsoft Office &gt; right mouse click &gt; Change.
+    </p>
+    <p>
+     2. Click "Quick repair" &gt; wait for this to complete.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content54" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content54" data-bs-toggle="collapse" id="toggleButton54">
+    COPYING NAS DATA TO EXTERNAL HDD TO PREVENT DATA-LOSS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content54">
+    <p>
+     1. Open the NAS.
+    </p>
+    <p>
+     2. Choose all data and folders.
+    </p>
+    <p>
+     3. Copy all data to external HDD.
+    </p>
+   </div>
+  </div>
+  <div class="container">
+   <button aria-controls="content55" aria-expanded="false" class="btn btn-primary w-100 text-start mb-2" data-bs-target="#content55" data-bs-toggle="collapse" id="toggleButton55">
+    CHECKING THE EXTERNAL HDD STATUS
+   </button>
+   <div class="collapse border rounded p-3 bg-light mb-4" id="content55">
+    <p>
+     1. Go to NAS location.
+    </p>
+    <p>
+     2. Remove External HDD (21P0131) from NAS.
+    </p>
+    <p>
+     3. Connect External HDD to PC with USB cable.
+    </p>
+    <p>
+     4. Check if the "Daily" and "Weekly" folder has database which you need.
+    </p>
+    <p>
+     5. Please check if inside of Daily and Weekly folders which backup data are latest.
+    </p>
+   </div>
+ </head>
 </html>
+<body>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+ </script>
+</body>
