@@ -51,10 +51,6 @@ def map():
     m = folium.Map(location=[1, 0], zoom_start=3)
 
     # Example markers
-    folium.Marker([51.505, -0.09], popup='London').add_to(m)
-    folium.Marker([48.8566, 2.3522], popup='Paris').add_to(m)
-    folium.Marker([35.6895, 139.6917], popup='Tokyo').add_to(m)
-    folium.Marker([-33.8688, 151.2093], popup='Sydney').add_to(m)
 
     # Save the map to an HTML file
     m.save('templates/map.html')
