@@ -19,7 +19,7 @@
             overflow-y: auto;
         }
         .sidebar h4 {
-            color: rgb(179, 73, 73);
+            color: white;
         }
         .sidebar .nav-link {
             color: #ffffff;
@@ -28,14 +28,8 @@
             background-color: #007bff;
         }
         .content {
-            margin-left: 270px;
+            margin-left: 270px; /* Space for the sidebar */
             padding: 20px;
-        }
-        .main-logo {
-            height: 350x;
-            margin: 20px auto;
-            display: block;
-            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
         }
         .alert {
             margin-top: 20px;
@@ -83,6 +77,8 @@
                 
             </a>
         </nav>
+
+        <img src="{{ url_for('static', filename='ceme.png') }}" alt="Banner" class="img-fluid mb-4">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="alert alert-info">
