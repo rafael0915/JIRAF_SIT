@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>SHIP IT TICKETS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #2781db;
         }
         .sidebar {
             background-color: #343a40;
@@ -19,7 +19,7 @@
             overflow-y: auto;
         }
         .sidebar h4 {
-            color: white;
+            color: rgb(179, 73, 73);
         }
         .sidebar .nav-link {
             color: #ffffff;
@@ -28,8 +28,14 @@
             background-color: #007bff;
         }
         .content {
-            margin-left: 270px; /* Space for the sidebar */
+            margin-left: 270px;
             padding: 20px;
+        }
+        .main-logo {
+            height: 120px;
+            margin: 20px auto;
+            display: block;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
         }
         .alert {
             margin-top: 20px;
@@ -49,58 +55,45 @@
     <div class="sidebar">
         <h4>Navigation</h4>
         <ul class="nav flex-column">
-            {% if current_user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('business_trip') }}">Business Trip Planner</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('trips') }}">Vessel Schedule</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('projects') }}">Projects</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('mailTemplates2') }}">Ship IT Templates</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('Directories') }}">Directories</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('vesselist2') }}">Managed Vessels</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('troubleshooting') }}">Troubleshooting Steps</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('network_diagram') }}">Vessel Network Diagram</a></li>
-		<li class="nav-item"><a class="nav-link" href="{{ url_for('work_reports') }}">Onboard Vessel Working Reports</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('map') }}">Connectivity Map</a></li>
-		<li class="nav-item"><a class="nav-link" href="{{ url_for('finalbriefing2') }}">Final Briefing List</a></li>
-		<li class="nav-item"><a class="nav-link" href="{{ url_for('add_schedule') }}">Vessel Berthing Schedule</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
-            {% else %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
-            {% endif %}
+            <li class="nav-item"><a class="nav-link" href="#">Business Trip Planner</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Vessel Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Ship IT Templates</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Directories</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Managed Vessels</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Troubleshooting Steps</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Vessel Network Diagram</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Onboard Vessel Working Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Connectivity Map</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Final Briefing List</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Vessel Berthing Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
         </ul>
     </div>
 
     <div class="content">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" style="height: 100px; margin-right: 50px;">
-                
+        <nav class="navbar navbar-expand-lg navbar-light justify-content-center">
+            <a class="navbar-brand" href="#">
+                <img src="static/logo.png" alt="SHIP IT Logo" class="main-logo">
             </a>
         </nav>
 
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Banner" class="img-fluid mb-4">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info">
-                    <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+        <img src="static/logo2.png" alt="Banner" class="img-fluid mb-4">
+
+        <div class="alert alert-info" role="alert">
+            <ul>
+                <li>Welcome to SHIP IT TICKETS!</li>
+            </ul>
+        </div>
     </div>
 
     <footer>
-        <img src="{{ url_for('static', filename='ship.png') }}" alt="ship" style="height:  50px;">
-        <p>&copy; 2025 Rafael Blas, ang iyong lingkod cannot be copyrights?!!?! All rights reserved.</p>
+        <img src="static/ship.png" alt="ship" style="height: 50px;">
+        <p>&copy; 2025 Rafael Blas, All rights reserved.</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-</html>
 </html>
