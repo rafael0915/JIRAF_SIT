@@ -1,51 +1,62 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>SHIP IT TICKETS</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .sidebar {
-            background-color: #343a40;
-            height: 100vh;
-            padding: 20px;
-            position: fixed;
-            width: 250px;
-            overflow-y: auto;
-        }
-        .sidebar h4 {
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: #ffffff;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #007bff;
-        }
-        .content {
-            margin-left: 270px; /* Space for the sidebar */
-            padding: 20px;
-        }
-        .alert {
-            margin-top: 20px;
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHIP IT TICKETS</title>
+
+  <!-- Embedded Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- Embedded Custom Styles -->
+  <style>
+    body {
+      background: linear-gradient(to right, #2781db, #6fb1fc);
+      font-family: 'Poppins', sans-serif;
+    }
+    .sidebar {
+      background-color: #212529;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      width: 250px;
+      overflow-y: auto;
+    }
+    .sidebar h4 {
+      color: #ffc107;
+    }
+    .sidebar .nav-link {
+      color: #ffffff;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .sidebar .nav-link:hover {
+      background-color: #007bff;
+      transform: translateX(5px);
+    }
+    .content {
+      margin-left: 270px;
+      padding: 20px;
+    }
+    .alert {
+      margin-top: 20px;
+    }
+    footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- Sidebar -->
     <div class="sidebar">
         <h4>Navigation</h4>
         <ul class="nav flex-column">
@@ -70,37 +81,40 @@
         </ul>
     </div>
 
-    <div class="content">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 100px; margin-right: 50px;">
-                
-            </a>
-        </nav>
 
-        <img src="{{ url_for('static', filename='ceme.png') }}" alt="Banner" class="img-fluid mb-4">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info">
-                    <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+  <!-- Main Content -->
+  <div class="content">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" alt="Logo" style="height: 100px; margin-right: 50px;">
+      </a>
+    </nav>
+
+    <img src="{{ url_for('static', filename='ceme.png') }}" alt="Banner" class="img-fluid mb-4">
+
+    <div class="alert alert-info">
+      <ul>
+        <li>Welcome aboard! Your dashboard is ready.</li>
+      </ul>
     </div>
 
-    <footer>
-        <img src="{{ url_for('static', filename='ship.png') }}" alt="ship" style="height:  50px;">
-        <p>&copy; 2025 Rafael Blas, ang iyong lingkod cannot be copyrights?!!?! All rights reserved.</p>
-    </footer>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Welcome to Ship IT</h5>
+        <p class="card-text">Plan your trips, manage vessels, and more—all in one place.</p>
+      </div>
+    </div>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Footer -->
+  <footer>
+      <img src="{{ url_for('static', filename='ship.png') }}" alt="ship" style="height:  50px;">
+    <p>&copy; 2025 Rafael Blas, All rights reserved.</p>
+  </footer>
+
+  <!-- Embedded JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-</html>
 </html>
